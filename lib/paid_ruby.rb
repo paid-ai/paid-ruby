@@ -42,7 +42,7 @@ module Paid
       @agents = Paid::AgentsClient.new(request_client: @request_client)
       @contacts = Paid::ContactsClient.new(request_client: @request_client)
       @orders = Paid::OrdersClient.new(request_client: @request_client)
-      @usage = Paid::UsageClient.new(request_client: @request_client)
+      @usage = Paid::BatchUsageClient.new(request_client: @request_client)
     end
   end
 
@@ -77,7 +77,7 @@ module Paid
       @agents = Paid::AsyncAgentsClient.new(request_client: @async_request_client)
       @contacts = Paid::AsyncContactsClient.new(request_client: @async_request_client)
       @orders = Paid::AsyncOrdersClient.new(request_client: @async_request_client)
-      @usage = Paid::AsyncUsageClient.new(request_client: @async_request_client)
+      @usage = Paid::AsyncBatchUsageClient.new(request_client: @async_request_client)
     end
   end
 end

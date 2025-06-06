@@ -38,8 +38,4 @@ module Paid
       end
     end
   end
-
-  UsageClient = BatchUsageClient
-  AsyncUsageClient = AsyncBatchUsageClient
-
 end
