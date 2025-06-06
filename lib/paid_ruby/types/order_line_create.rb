@@ -3,7 +3,7 @@
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   class OrderLineCreate
     # @return [String]
     attr_reader :agent_id
@@ -26,7 +26,7 @@ module PaidApiClient
     # @param name [String]
     # @param description [String]
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::OrderLineCreate]
+    # @return [Paid::OrderLineCreate]
     def initialize(agent_id: OMIT, agent_external_id: OMIT, name: OMIT, description: OMIT, additional_properties: nil)
       @agent_id = agent_id if agent_id != OMIT
       @agent_external_id = agent_external_id if agent_external_id != OMIT
@@ -46,7 +46,7 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of OrderLineCreate
     #
     # @param json_object [String]
-    # @return [PaidApiClient::OrderLineCreate]
+    # @return [Paid::OrderLineCreate]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)

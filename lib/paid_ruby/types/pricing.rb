@@ -6,19 +6,19 @@ require_relative "billing_frequency"
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   class Pricing
     # @return [String]
     attr_reader :event_name
     # @return [Boolean]
     attr_reader :taxable
-    # @return [PaidApiClient::ChargeType]
+    # @return [Paid::ChargeType]
     attr_reader :charge_type
-    # @return [PaidApiClient::PricingModelType]
+    # @return [Paid::PricingModelType]
     attr_reader :pricing_model
-    # @return [PaidApiClient::BillingFrequency]
+    # @return [Paid::BillingFrequency]
     attr_reader :billing_frequency
-    # @return [Hash{String => PaidApiClient::AgentPricePoint}]
+    # @return [Hash{String => Paid::AgentPricePoint}]
     attr_reader :price_points
     # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
@@ -30,12 +30,12 @@ module PaidApiClient
 
     # @param event_name [String]
     # @param taxable [Boolean]
-    # @param charge_type [PaidApiClient::ChargeType]
-    # @param pricing_model [PaidApiClient::PricingModelType]
-    # @param billing_frequency [PaidApiClient::BillingFrequency]
-    # @param price_points [Hash{String => PaidApiClient::AgentPricePoint}]
+    # @param charge_type [Paid::ChargeType]
+    # @param pricing_model [Paid::PricingModelType]
+    # @param billing_frequency [Paid::BillingFrequency]
+    # @param price_points [Hash{String => Paid::AgentPricePoint}]
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::Pricing]
+    # @return [Paid::Pricing]
     def initialize(taxable:, charge_type:, pricing_model:, billing_frequency:, price_points:, event_name: OMIT,
                    additional_properties: nil)
       @event_name = event_name if event_name != OMIT
@@ -60,7 +60,7 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of Pricing
     #
     # @param json_object [String]
-    # @return [PaidApiClient::Pricing]
+    # @return [Paid::Pricing]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)
@@ -71,7 +71,7 @@ module PaidApiClient
       billing_frequency = parsed_json["billingFrequency"]
       price_points = parsed_json["pricePoints"]&.transform_values do |value|
         value = value.to_json
-        PaidApiClient::AgentPricePoint.from_json(json_object: value)
+        Paid::AgentPricePoint.from_json(json_object: value)
       end
       new(
         event_name: event_name,
@@ -100,9 +100,9 @@ module PaidApiClient
     def self.validate_raw(obj:)
       obj.event_name&.is_a?(String) != false || raise("Passed value for field obj.event_name is not the expected type, validation failed.")
       obj.taxable.is_a?(Boolean) != false || raise("Passed value for field obj.taxable is not the expected type, validation failed.")
-      obj.charge_type.is_a?(PaidApiClient::ChargeType) != false || raise("Passed value for field obj.charge_type is not the expected type, validation failed.")
-      obj.pricing_model.is_a?(PaidApiClient::PricingModelType) != false || raise("Passed value for field obj.pricing_model is not the expected type, validation failed.")
-      obj.billing_frequency.is_a?(PaidApiClient::BillingFrequency) != false || raise("Passed value for field obj.billing_frequency is not the expected type, validation failed.")
+      obj.charge_type.is_a?(Paid::ChargeType) != false || raise("Passed value for field obj.charge_type is not the expected type, validation failed.")
+      obj.pricing_model.is_a?(Paid::PricingModelType) != false || raise("Passed value for field obj.pricing_model is not the expected type, validation failed.")
+      obj.billing_frequency.is_a?(Paid::BillingFrequency) != false || raise("Passed value for field obj.billing_frequency is not the expected type, validation failed.")
       obj.price_points.is_a?(Hash) != false || raise("Passed value for field obj.price_points is not the expected type, validation failed.")
     end
   end

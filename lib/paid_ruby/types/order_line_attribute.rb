@@ -4,7 +4,7 @@ require_relative "order_line_attribute_pricing"
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   class OrderLineAttribute
     # @return [String]
     attr_reader :agent_attribute_id
@@ -12,7 +12,7 @@ module PaidApiClient
     attr_reader :quantity
     # @return [String]
     attr_reader :currency
-    # @return [PaidApiClient::OrderLineAttributePricing]
+    # @return [Paid::OrderLineAttributePricing]
     attr_reader :pricing
     # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
@@ -25,9 +25,9 @@ module PaidApiClient
     # @param agent_attribute_id [String]
     # @param quantity [Float]
     # @param currency [String]
-    # @param pricing [PaidApiClient::OrderLineAttributePricing]
+    # @param pricing [Paid::OrderLineAttributePricing]
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::OrderLineAttribute]
+    # @return [Paid::OrderLineAttribute]
     def initialize(agent_attribute_id: OMIT, quantity: OMIT, currency: OMIT, pricing: OMIT, additional_properties: nil)
       @agent_attribute_id = agent_attribute_id if agent_attribute_id != OMIT
       @quantity = quantity if quantity != OMIT
@@ -47,7 +47,7 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of OrderLineAttribute
     #
     # @param json_object [String]
-    # @return [PaidApiClient::OrderLineAttribute]
+    # @return [Paid::OrderLineAttribute]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)
@@ -58,7 +58,7 @@ module PaidApiClient
         pricing = nil
       else
         pricing = parsed_json["pricing"].to_json
-        pricing = PaidApiClient::OrderLineAttributePricing.from_json(json_object: pricing)
+        pricing = Paid::OrderLineAttributePricing.from_json(json_object: pricing)
       end
       new(
         agent_attribute_id: agent_attribute_id,
@@ -86,7 +86,7 @@ module PaidApiClient
       obj.agent_attribute_id&.is_a?(String) != false || raise("Passed value for field obj.agent_attribute_id is not the expected type, validation failed.")
       obj.quantity&.is_a?(Float) != false || raise("Passed value for field obj.quantity is not the expected type, validation failed.")
       obj.currency&.is_a?(String) != false || raise("Passed value for field obj.currency is not the expected type, validation failed.")
-      obj.pricing.nil? || PaidApiClient::OrderLineAttributePricing.validate_raw(obj: obj.pricing)
+      obj.pricing.nil? || Paid::OrderLineAttributePricing.validate_raw(obj: obj.pricing)
     end
   end
 end

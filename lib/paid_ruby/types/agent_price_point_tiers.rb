@@ -3,7 +3,7 @@
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   class AgentPricePointTiers
     # @return [Float]
     attr_reader :min_quantity
@@ -23,7 +23,7 @@ module PaidApiClient
     # @param max_quantity [Float]
     # @param unit_price [Float]
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::AgentPricePointTiers]
+    # @return [Paid::AgentPricePointTiers]
     def initialize(unit_price:, min_quantity: OMIT, max_quantity: OMIT, additional_properties: nil)
       @min_quantity = min_quantity if min_quantity != OMIT
       @max_quantity = max_quantity if max_quantity != OMIT
@@ -41,7 +41,7 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of AgentPricePointTiers
     #
     # @param json_object [String]
-    # @return [PaidApiClient::AgentPricePointTiers]
+    # @return [Paid::AgentPricePointTiers]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)

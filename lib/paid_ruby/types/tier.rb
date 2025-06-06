@@ -3,7 +3,7 @@
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   class Tier
     # @return [Float]
     attr_reader :lower_bound
@@ -23,7 +23,7 @@ module PaidApiClient
     # @param upper_bound [Float]
     # @param price [Float]
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::Tier]
+    # @return [Paid::Tier]
     def initialize(lower_bound: OMIT, upper_bound: OMIT, price: OMIT, additional_properties: nil)
       @lower_bound = lower_bound if lower_bound != OMIT
       @upper_bound = upper_bound if upper_bound != OMIT
@@ -37,7 +37,7 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of Tier
     #
     # @param json_object [String]
-    # @return [PaidApiClient::Tier]
+    # @return [Paid::Tier]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)

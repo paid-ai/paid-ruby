@@ -7,17 +7,17 @@ require_relative "billing_frequency"
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   class OrderLineAttributePricing
     # @return [String]
     attr_reader :event_name
-    # @return [PaidApiClient::ChargeType]
+    # @return [Paid::ChargeType]
     attr_reader :charge_type
-    # @return [PaidApiClient::PricePoint]
+    # @return [Paid::PricePoint]
     attr_reader :price_point
-    # @return [PaidApiClient::PricingModelType]
+    # @return [Paid::PricingModelType]
     attr_reader :pricing_model
-    # @return [PaidApiClient::BillingFrequency]
+    # @return [Paid::BillingFrequency]
     attr_reader :billing_frequency
     # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
@@ -28,12 +28,12 @@ module PaidApiClient
     OMIT = Object.new
 
     # @param event_name [String]
-    # @param charge_type [PaidApiClient::ChargeType]
-    # @param price_point [PaidApiClient::PricePoint]
-    # @param pricing_model [PaidApiClient::PricingModelType]
-    # @param billing_frequency [PaidApiClient::BillingFrequency]
+    # @param charge_type [Paid::ChargeType]
+    # @param price_point [Paid::PricePoint]
+    # @param pricing_model [Paid::PricingModelType]
+    # @param billing_frequency [Paid::BillingFrequency]
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::OrderLineAttributePricing]
+    # @return [Paid::OrderLineAttributePricing]
     def initialize(event_name: OMIT, charge_type: OMIT, price_point: OMIT, pricing_model: OMIT,
                    billing_frequency: OMIT, additional_properties: nil)
       @event_name = event_name if event_name != OMIT
@@ -56,7 +56,7 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of OrderLineAttributePricing
     #
     # @param json_object [String]
-    # @return [PaidApiClient::OrderLineAttributePricing]
+    # @return [Paid::OrderLineAttributePricing]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)
@@ -66,7 +66,7 @@ module PaidApiClient
         price_point = nil
       else
         price_point = parsed_json["pricePoint"].to_json
-        price_point = PaidApiClient::PricePoint.from_json(json_object: price_point)
+        price_point = Paid::PricePoint.from_json(json_object: price_point)
       end
       pricing_model = parsed_json["pricingModel"]
       billing_frequency = parsed_json["billingFrequency"]
@@ -95,10 +95,10 @@ module PaidApiClient
     # @return [Void]
     def self.validate_raw(obj:)
       obj.event_name&.is_a?(String) != false || raise("Passed value for field obj.event_name is not the expected type, validation failed.")
-      obj.charge_type&.is_a?(PaidApiClient::ChargeType) != false || raise("Passed value for field obj.charge_type is not the expected type, validation failed.")
-      obj.price_point.nil? || PaidApiClient::PricePoint.validate_raw(obj: obj.price_point)
-      obj.pricing_model&.is_a?(PaidApiClient::PricingModelType) != false || raise("Passed value for field obj.pricing_model is not the expected type, validation failed.")
-      obj.billing_frequency&.is_a?(PaidApiClient::BillingFrequency) != false || raise("Passed value for field obj.billing_frequency is not the expected type, validation failed.")
+      obj.charge_type&.is_a?(Paid::ChargeType) != false || raise("Passed value for field obj.charge_type is not the expected type, validation failed.")
+      obj.price_point.nil? || Paid::PricePoint.validate_raw(obj: obj.price_point)
+      obj.pricing_model&.is_a?(Paid::PricingModelType) != false || raise("Passed value for field obj.pricing_model is not the expected type, validation failed.")
+      obj.billing_frequency&.is_a?(Paid::BillingFrequency) != false || raise("Passed value for field obj.billing_frequency is not the expected type, validation failed.")
     end
   end
 end

@@ -5,7 +5,7 @@ require "faraday"
 require "faraday/retry"
 require "async/http/faraday"
 
-module PaidApiClient
+module Paid
   class RequestClient
     # @return [Faraday]
     attr_reader :conn
@@ -17,12 +17,12 @@ module PaidApiClient
     attr_reader :default_environment
 
     # @param base_url [String]
-    # @param environment [PaidApiClient::Environment]
+    # @param environment [Paid::Environment]
     # @param max_retries [Long] The number of times to retry a failed request, defaults to 2.
     # @param timeout_in_seconds [Long]
     # @param token [String]
-    # @return [PaidApiClient::RequestClient]
-    def initialize(token:, base_url: nil, environment: PaidApiClient::Environment::DEFAULT, max_retries: nil,
+    # @return [Paid::RequestClient]
+    def initialize(token:, base_url: nil, environment: Paid::Environment::PRODUCTION, max_retries: nil,
                    timeout_in_seconds: nil)
       @default_environment = environment
       @base_url = environment || base_url
@@ -35,7 +35,7 @@ module PaidApiClient
       end
     end
 
-    # @param request_options [PaidApiClient::RequestOptions]
+    # @param request_options [Paid::RequestOptions]
     # @return [String]
     def get_url(request_options: nil)
       request_options&.base_url || @default_environment || @base_url
@@ -43,7 +43,7 @@ module PaidApiClient
 
     # @return [Hash{String => String}]
     def get_headers
-      headers = { "X-Fern-Language": "Ruby", "X-Fern-SDK-Name": "paid_ruby", "X-Fern-SDK-Version": "0.0.1" }
+      headers = { "X-Fern-Language": "Ruby", "X-Fern-SDK-Name": "paid_ruby", "X-Fern-SDK-Version": "0.2.0" }
       headers["Authorization"] = ((@token.is_a? Method) ? @token.call : @token) unless @token.nil?
       headers
     end
@@ -60,12 +60,12 @@ module PaidApiClient
     attr_reader :default_environment
 
     # @param base_url [String]
-    # @param environment [PaidApiClient::Environment]
+    # @param environment [Paid::Environment]
     # @param max_retries [Long] The number of times to retry a failed request, defaults to 2.
     # @param timeout_in_seconds [Long]
     # @param token [String]
-    # @return [PaidApiClient::AsyncRequestClient]
-    def initialize(token:, base_url: nil, environment: PaidApiClient::Environment::DEFAULT, max_retries: nil,
+    # @return [Paid::AsyncRequestClient]
+    def initialize(token:, base_url: nil, environment: Paid::Environment::PRODUCTION, max_retries: nil,
                    timeout_in_seconds: nil)
       @default_environment = environment
       @base_url = environment || base_url
@@ -79,7 +79,7 @@ module PaidApiClient
       end
     end
 
-    # @param request_options [PaidApiClient::RequestOptions]
+    # @param request_options [Paid::RequestOptions]
     # @return [String]
     def get_url(request_options: nil)
       request_options&.base_url || @default_environment || @base_url
@@ -87,7 +87,7 @@ module PaidApiClient
 
     # @return [Hash{String => String}]
     def get_headers
-      headers = { "X-Fern-Language": "Ruby", "X-Fern-SDK-Name": "paid_ruby", "X-Fern-SDK-Version": "0.0.1" }
+      headers = { "X-Fern-Language": "Ruby", "X-Fern-SDK-Name": "paid_ruby", "X-Fern-SDK-Version": "0.2.0" }
       headers["Authorization"] = ((@token.is_a? Method) ? @token.call : @token) unless @token.nil?
       headers
     end
@@ -115,7 +115,7 @@ module PaidApiClient
     # @param additional_query_parameters [Hash{String => Object}]
     # @param additional_body_parameters [Hash{String => Object}]
     # @param timeout_in_seconds [Long]
-    # @return [PaidApiClient::RequestOptions]
+    # @return [Paid::RequestOptions]
     def initialize(base_url: nil, token: nil, additional_headers: nil, additional_query_parameters: nil,
                    additional_body_parameters: nil, timeout_in_seconds: nil)
       @base_url = base_url
@@ -149,7 +149,7 @@ module PaidApiClient
     # @param additional_query_parameters [Hash{String => Object}]
     # @param additional_body_parameters [Hash{String => Object}]
     # @param timeout_in_seconds [Long]
-    # @return [PaidApiClient::IdempotencyRequestOptions]
+    # @return [Paid::IdempotencyRequestOptions]
     def initialize(base_url: nil, token: nil, additional_headers: nil, additional_query_parameters: nil,
                    additional_body_parameters: nil, timeout_in_seconds: nil)
       @base_url = base_url

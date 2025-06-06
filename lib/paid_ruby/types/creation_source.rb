@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module PaidApiClient
+module Paid
   class CreationSource
     MANUAL = "manual"
     API = "api"

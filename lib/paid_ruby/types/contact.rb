@@ -4,7 +4,7 @@ require_relative "salutation"
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   class Contact
     # @return [String]
     attr_reader :id
@@ -13,10 +13,10 @@ module PaidApiClient
     # @return [String]
     attr_reader :organization_id
     # @return [String]
-    attr_reader :account_id
+    attr_reader :customer_id
     # @return [String]
-    attr_reader :account_external_id
-    # @return [PaidApiClient::Salutation]
+    attr_reader :customer_external_id
+    # @return [Paid::Salutation]
     attr_reader :salutation
     # @return [String]
     attr_reader :first_name
@@ -47,9 +47,9 @@ module PaidApiClient
     # @param id [String]
     # @param external_id [String]
     # @param organization_id [String]
-    # @param account_id [String]
-    # @param account_external_id [String]
-    # @param salutation [PaidApiClient::Salutation]
+    # @param customer_id [String]
+    # @param customer_external_id [String]
+    # @param salutation [Paid::Salutation]
     # @param first_name [String]
     # @param last_name [String]
     # @param email [String]
@@ -60,14 +60,14 @@ module PaidApiClient
     # @param billing_country [String]
     # @param billing_zip_postal_code [String]
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::Contact]
-    def initialize(id: OMIT, external_id: OMIT, organization_id: OMIT, account_id: OMIT, account_external_id: OMIT,
+    # @return [Paid::Contact]
+    def initialize(id: OMIT, external_id: OMIT, organization_id: OMIT, customer_id: OMIT, customer_external_id: OMIT,
                    salutation: OMIT, first_name: OMIT, last_name: OMIT, email: OMIT, phone: OMIT, billing_street: OMIT, billing_city: OMIT, billing_state_province: OMIT, billing_country: OMIT, billing_zip_postal_code: OMIT, additional_properties: nil)
       @id = id if id != OMIT
       @external_id = external_id if external_id != OMIT
       @organization_id = organization_id if organization_id != OMIT
-      @account_id = account_id if account_id != OMIT
-      @account_external_id = account_external_id if account_external_id != OMIT
+      @customer_id = customer_id if customer_id != OMIT
+      @customer_external_id = customer_external_id if customer_external_id != OMIT
       @salutation = salutation if salutation != OMIT
       @first_name = first_name if first_name != OMIT
       @last_name = last_name if last_name != OMIT
@@ -83,8 +83,8 @@ module PaidApiClient
         "id": id,
         "externalId": external_id,
         "organizationId": organization_id,
-        "accountId": account_id,
-        "accountExternalId": account_external_id,
+        "customerId": customer_id,
+        "customerExternalId": customer_external_id,
         "salutation": salutation,
         "firstName": first_name,
         "lastName": last_name,
@@ -103,15 +103,15 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of Contact
     #
     # @param json_object [String]
-    # @return [PaidApiClient::Contact]
+    # @return [Paid::Contact]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)
       id = parsed_json["id"]
       external_id = parsed_json["externalId"]
       organization_id = parsed_json["organizationId"]
-      account_id = parsed_json["accountId"]
-      account_external_id = parsed_json["accountExternalId"]
+      customer_id = parsed_json["customerId"]
+      customer_external_id = parsed_json["customerExternalId"]
       salutation = parsed_json["salutation"]
       first_name = parsed_json["firstName"]
       last_name = parsed_json["lastName"]
@@ -126,8 +126,8 @@ module PaidApiClient
         id: id,
         external_id: external_id,
         organization_id: organization_id,
-        account_id: account_id,
-        account_external_id: account_external_id,
+        customer_id: customer_id,
+        customer_external_id: customer_external_id,
         salutation: salutation,
         first_name: first_name,
         last_name: last_name,
@@ -159,9 +159,9 @@ module PaidApiClient
       obj.id&.is_a?(String) != false || raise("Passed value for field obj.id is not the expected type, validation failed.")
       obj.external_id&.is_a?(String) != false || raise("Passed value for field obj.external_id is not the expected type, validation failed.")
       obj.organization_id&.is_a?(String) != false || raise("Passed value for field obj.organization_id is not the expected type, validation failed.")
-      obj.account_id&.is_a?(String) != false || raise("Passed value for field obj.account_id is not the expected type, validation failed.")
-      obj.account_external_id&.is_a?(String) != false || raise("Passed value for field obj.account_external_id is not the expected type, validation failed.")
-      obj.salutation&.is_a?(PaidApiClient::Salutation) != false || raise("Passed value for field obj.salutation is not the expected type, validation failed.")
+      obj.customer_id&.is_a?(String) != false || raise("Passed value for field obj.customer_id is not the expected type, validation failed.")
+      obj.customer_external_id&.is_a?(String) != false || raise("Passed value for field obj.customer_external_id is not the expected type, validation failed.")
+      obj.salutation&.is_a?(Paid::Salutation) != false || raise("Passed value for field obj.salutation is not the expected type, validation failed.")
       obj.first_name&.is_a?(String) != false || raise("Passed value for field obj.first_name is not the expected type, validation failed.")
       obj.last_name&.is_a?(String) != false || raise("Passed value for field obj.last_name is not the expected type, validation failed.")
       obj.email&.is_a?(String) != false || raise("Passed value for field obj.email is not the expected type, validation failed.")

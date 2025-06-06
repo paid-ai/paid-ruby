@@ -3,9 +3,9 @@
 require_relative "test_helper"
 require "paid_ruby"
 
-# Basic PaidApiClient tests
-class TestPaidApiClient < Minitest::Test
+# Basic Paid tests
+class TestPaid < Minitest::Test
   def test_function
-    # PaidApiClient::Client.new
+    # Paid::Client.new
   end
 end

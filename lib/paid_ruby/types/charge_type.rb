@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module PaidApiClient
+module Paid
   class ChargeType
     ONE_TIME = "oneTime"
     RECURRING = "recurring"

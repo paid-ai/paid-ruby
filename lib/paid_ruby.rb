@@ -9,74 +9,74 @@ require_relative "paid_ruby/contacts/client"
 require_relative "paid_ruby/orders/client"
 require_relative "paid_ruby/usage/client"
 
-module PaidApiClient
+module Paid
   class Client
-    # @return [PaidApiClient::CustomersClient]
+    # @return [Paid::CustomersClient]
     attr_reader :customers
-    # @return [PaidApiClient::AgentsClient]
+    # @return [Paid::AgentsClient]
     attr_reader :agents
-    # @return [PaidApiClient::ContactsClient]
+    # @return [Paid::ContactsClient]
     attr_reader :contacts
-    # @return [PaidApiClient::OrdersClient]
+    # @return [Paid::OrdersClient]
     attr_reader :orders
-    # @return [PaidApiClient::UsageClient]
+    # @return [Paid::UsageClient]
     attr_reader :usage
 
     # @param base_url [String]
-    # @param environment [PaidApiClient::Environment]
+    # @param environment [Paid::Environment]
     # @param max_retries [Long] The number of times to retry a failed request, defaults to 2.
     # @param timeout_in_seconds [Long]
     # @param token [String]
-    # @return [PaidApiClient::Client]
-    def initialize(token:, base_url: nil, environment: PaidApiClient::Environment::DEFAULT, max_retries: nil,
+    # @return [Paid::Client]
+    def initialize(token:, base_url: nil, environment: Paid::Environment::PRODUCTION, max_retries: nil,
                    timeout_in_seconds: nil)
-      @request_client = PaidApiClient::RequestClient.new(
+      @request_client = Paid::RequestClient.new(
         base_url: base_url,
         environment: environment,
         max_retries: max_retries,
         timeout_in_seconds: timeout_in_seconds,
         token: token
       )
-      @customers = PaidApiClient::CustomersClient.new(request_client: @request_client)
-      @agents = PaidApiClient::AgentsClient.new(request_client: @request_client)
-      @contacts = PaidApiClient::ContactsClient.new(request_client: @request_client)
-      @orders = PaidApiClient::OrdersClient.new(request_client: @request_client)
-      @usage = PaidApiClient::UsageClient.new(request_client: @request_client)
+      @customers = Paid::CustomersClient.new(request_client: @request_client)
+      @agents = Paid::AgentsClient.new(request_client: @request_client)
+      @contacts = Paid::ContactsClient.new(request_client: @request_client)
+      @orders = Paid::OrdersClient.new(request_client: @request_client)
+      @usage = Paid::UsageClient.new(request_client: @request_client)
     end
   end
 
   class AsyncClient
-    # @return [PaidApiClient::AsyncCustomersClient]
+    # @return [Paid::AsyncCustomersClient]
     attr_reader :customers
-    # @return [PaidApiClient::AsyncAgentsClient]
+    # @return [Paid::AsyncAgentsClient]
     attr_reader :agents
-    # @return [PaidApiClient::AsyncContactsClient]
+    # @return [Paid::AsyncContactsClient]
     attr_reader :contacts
-    # @return [PaidApiClient::AsyncOrdersClient]
+    # @return [Paid::AsyncOrdersClient]
     attr_reader :orders
-    # @return [PaidApiClient::AsyncUsageClient]
+    # @return [Paid::AsyncUsageClient]
     attr_reader :usage
 
     # @param base_url [String]
-    # @param environment [PaidApiClient::Environment]
+    # @param environment [Paid::Environment]
     # @param max_retries [Long] The number of times to retry a failed request, defaults to 2.
     # @param timeout_in_seconds [Long]
     # @param token [String]
-    # @return [PaidApiClient::AsyncClient]
-    def initialize(token:, base_url: nil, environment: PaidApiClient::Environment::DEFAULT, max_retries: nil,
+    # @return [Paid::AsyncClient]
+    def initialize(token:, base_url: nil, environment: Paid::Environment::PRODUCTION, max_retries: nil,
                    timeout_in_seconds: nil)
-      @async_request_client = PaidApiClient::AsyncRequestClient.new(
+      @async_request_client = Paid::AsyncRequestClient.new(
         base_url: base_url,
         environment: environment,
         max_retries: max_retries,
         timeout_in_seconds: timeout_in_seconds,
         token: token
       )
-      @customers = PaidApiClient::AsyncCustomersClient.new(request_client: @async_request_client)
-      @agents = PaidApiClient::AsyncAgentsClient.new(request_client: @async_request_client)
-      @contacts = PaidApiClient::AsyncContactsClient.new(request_client: @async_request_client)
-      @orders = PaidApiClient::AsyncOrdersClient.new(request_client: @async_request_client)
-      @usage = PaidApiClient::AsyncUsageClient.new(request_client: @async_request_client)
+      @customers = Paid::AsyncCustomersClient.new(request_client: @async_request_client)
+      @agents = Paid::AsyncAgentsClient.new(request_client: @async_request_client)
+      @contacts = Paid::AsyncContactsClient.new(request_client: @async_request_client)
+      @orders = Paid::AsyncOrdersClient.new(request_client: @async_request_client)
+      @usage = Paid::AsyncUsageClient.new(request_client: @async_request_client)
     end
   end
 end

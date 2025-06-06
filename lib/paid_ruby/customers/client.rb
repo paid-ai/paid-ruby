@@ -9,23 +9,23 @@ require_relative "../types/address"
 require_relative "../types/customer_update"
 require "async"
 
-module PaidApiClient
+module Paid
   class CustomersClient
-    # @return [PaidApiClient::RequestClient]
+    # @return [Paid::RequestClient]
     attr_reader :request_client
 
-    # @param request_client [PaidApiClient::RequestClient]
-    # @return [PaidApiClient::CustomersClient]
+    # @param request_client [Paid::RequestClient]
+    # @return [Paid::CustomersClient]
     def initialize(request_client:)
       @request_client = request_client
     end
 
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [Array<PaidApiClient::Customer>]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Array<Paid::Customer>]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.customers.list
@@ -49,7 +49,7 @@ module PaidApiClient
       parsed_json = JSON.parse(response.body)
       parsed_json&.map do |item|
         item = item.to_json
-        PaidApiClient::Customer.from_json(json_object: item)
+        Paid::Customer.from_json(json_object: item)
       end
     end
 
@@ -58,22 +58,22 @@ module PaidApiClient
     # @param phone [String]
     # @param employee_count [Float]
     # @param annual_revenue [Float]
-    # @param tax_exempt_status [PaidApiClient::TaxExemptStatus]
-    # @param creation_source [PaidApiClient::CreationSource]
+    # @param tax_exempt_status [Paid::TaxExemptStatus]
+    # @param creation_source [Paid::CreationSource]
     # @param website [String]
-    # @param billing_address [Hash] Request of type PaidApiClient::Address, as a Hash
+    # @param billing_address [Hash] Request of type Paid::Address, as a Hash
     #   * :line_1 (String)
     #   * :line_2 (String)
     #   * :city (String)
     #   * :state (String)
     #   * :zip_code (String)
     #   * :country (String)
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Customer]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Customer]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.customers.create(name: "name")
@@ -104,16 +104,16 @@ module PaidApiClient
         }.compact
         req.url "#{@request_client.get_url(request_options: request_options)}/customers"
       end
-      PaidApiClient::Customer.from_json(json_object: response.body)
+      Paid::Customer.from_json(json_object: response.body)
     end
 
     # @param customer_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Customer]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Customer]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.customers.get(customer_id: "customerId")
@@ -134,18 +134,18 @@ module PaidApiClient
         end
         req.url "#{@request_client.get_url(request_options: request_options)}/customers/#{customer_id}"
       end
-      PaidApiClient::Customer.from_json(json_object: response.body)
+      Paid::Customer.from_json(json_object: response.body)
     end
 
     # @param customer_id [String]
-    # @param request [Hash] Request of type PaidApiClient::CustomerUpdate, as a Hash
+    # @param request [Hash] Request of type Paid::CustomerUpdate, as a Hash
     #   * :name (String)
     #   * :external_id (String)
     #   * :phone (String)
     #   * :employee_count (Float)
     #   * :annual_revenue (Float)
-    #   * :tax_exempt_status (PaidApiClient::TaxExemptStatus)
-    #   * :creation_source (PaidApiClient::CreationSource)
+    #   * :tax_exempt_status (Paid::TaxExemptStatus)
+    #   * :creation_source (Paid::CreationSource)
     #   * :website (String)
     #   * :billing_address (Hash)
     #     * :line_1 (String)
@@ -154,12 +154,12 @@ module PaidApiClient
     #     * :state (String)
     #     * :zip_code (String)
     #     * :country (String)
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Customer]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Customer]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.customers.update(customer_id: "customerId", request: {  })
@@ -178,16 +178,16 @@ module PaidApiClient
         req.body = { **(request || {}), **(request_options&.additional_body_parameters || {}) }.compact
         req.url "#{@request_client.get_url(request_options: request_options)}/customers/#{customer_id}"
       end
-      PaidApiClient::Customer.from_json(json_object: response.body)
+      Paid::Customer.from_json(json_object: response.body)
     end
 
     # @param customer_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
+    # @param request_options [Paid::RequestOptions]
     # @return [Void]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.customers.delete(customer_id: "customerId")
@@ -211,12 +211,12 @@ module PaidApiClient
     end
 
     # @param external_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Customer]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Customer]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.customers.get_by_external_id(external_id: "externalId")
@@ -237,18 +237,18 @@ module PaidApiClient
         end
         req.url "#{@request_client.get_url(request_options: request_options)}/customers/external/#{external_id}"
       end
-      PaidApiClient::Customer.from_json(json_object: response.body)
+      Paid::Customer.from_json(json_object: response.body)
     end
 
     # @param external_id [String]
-    # @param request [Hash] Request of type PaidApiClient::CustomerUpdate, as a Hash
+    # @param request [Hash] Request of type Paid::CustomerUpdate, as a Hash
     #   * :name (String)
     #   * :external_id (String)
     #   * :phone (String)
     #   * :employee_count (Float)
     #   * :annual_revenue (Float)
-    #   * :tax_exempt_status (PaidApiClient::TaxExemptStatus)
-    #   * :creation_source (PaidApiClient::CreationSource)
+    #   * :tax_exempt_status (Paid::TaxExemptStatus)
+    #   * :creation_source (Paid::CreationSource)
     #   * :website (String)
     #   * :billing_address (Hash)
     #     * :line_1 (String)
@@ -257,12 +257,12 @@ module PaidApiClient
     #     * :state (String)
     #     * :zip_code (String)
     #     * :country (String)
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Customer]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Customer]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.customers.update_by_external_id(external_id: "externalId", request: {  })
@@ -281,16 +281,16 @@ module PaidApiClient
         req.body = { **(request || {}), **(request_options&.additional_body_parameters || {}) }.compact
         req.url "#{@request_client.get_url(request_options: request_options)}/customers/external/#{external_id}"
       end
-      PaidApiClient::Customer.from_json(json_object: response.body)
+      Paid::Customer.from_json(json_object: response.body)
     end
 
     # @param external_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
+    # @param request_options [Paid::RequestOptions]
     # @return [Void]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.customers.delete_by_external_id(external_id: "externalId")
@@ -315,21 +315,21 @@ module PaidApiClient
   end
 
   class AsyncCustomersClient
-    # @return [PaidApiClient::AsyncRequestClient]
+    # @return [Paid::AsyncRequestClient]
     attr_reader :request_client
 
-    # @param request_client [PaidApiClient::AsyncRequestClient]
-    # @return [PaidApiClient::AsyncCustomersClient]
+    # @param request_client [Paid::AsyncRequestClient]
+    # @return [Paid::AsyncCustomersClient]
     def initialize(request_client:)
       @request_client = request_client
     end
 
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [Array<PaidApiClient::Customer>]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Array<Paid::Customer>]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.customers.list
@@ -354,7 +354,7 @@ module PaidApiClient
         parsed_json = JSON.parse(response.body)
         parsed_json&.map do |item|
           item = item.to_json
-          PaidApiClient::Customer.from_json(json_object: item)
+          Paid::Customer.from_json(json_object: item)
         end
       end
     end
@@ -364,22 +364,22 @@ module PaidApiClient
     # @param phone [String]
     # @param employee_count [Float]
     # @param annual_revenue [Float]
-    # @param tax_exempt_status [PaidApiClient::TaxExemptStatus]
-    # @param creation_source [PaidApiClient::CreationSource]
+    # @param tax_exempt_status [Paid::TaxExemptStatus]
+    # @param creation_source [Paid::CreationSource]
     # @param website [String]
-    # @param billing_address [Hash] Request of type PaidApiClient::Address, as a Hash
+    # @param billing_address [Hash] Request of type Paid::Address, as a Hash
     #   * :line_1 (String)
     #   * :line_2 (String)
     #   * :city (String)
     #   * :state (String)
     #   * :zip_code (String)
     #   * :country (String)
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Customer]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Customer]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.customers.create(name: "name")
@@ -411,17 +411,17 @@ module PaidApiClient
           }.compact
           req.url "#{@request_client.get_url(request_options: request_options)}/customers"
         end
-        PaidApiClient::Customer.from_json(json_object: response.body)
+        Paid::Customer.from_json(json_object: response.body)
       end
     end
 
     # @param customer_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Customer]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Customer]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.customers.get(customer_id: "customerId")
@@ -443,19 +443,19 @@ module PaidApiClient
           end
           req.url "#{@request_client.get_url(request_options: request_options)}/customers/#{customer_id}"
         end
-        PaidApiClient::Customer.from_json(json_object: response.body)
+        Paid::Customer.from_json(json_object: response.body)
       end
     end
 
     # @param customer_id [String]
-    # @param request [Hash] Request of type PaidApiClient::CustomerUpdate, as a Hash
+    # @param request [Hash] Request of type Paid::CustomerUpdate, as a Hash
     #   * :name (String)
     #   * :external_id (String)
     #   * :phone (String)
     #   * :employee_count (Float)
     #   * :annual_revenue (Float)
-    #   * :tax_exempt_status (PaidApiClient::TaxExemptStatus)
-    #   * :creation_source (PaidApiClient::CreationSource)
+    #   * :tax_exempt_status (Paid::TaxExemptStatus)
+    #   * :creation_source (Paid::CreationSource)
     #   * :website (String)
     #   * :billing_address (Hash)
     #     * :line_1 (String)
@@ -464,12 +464,12 @@ module PaidApiClient
     #     * :state (String)
     #     * :zip_code (String)
     #     * :country (String)
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Customer]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Customer]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.customers.update(customer_id: "customerId", request: {  })
@@ -489,17 +489,17 @@ module PaidApiClient
           req.body = { **(request || {}), **(request_options&.additional_body_parameters || {}) }.compact
           req.url "#{@request_client.get_url(request_options: request_options)}/customers/#{customer_id}"
         end
-        PaidApiClient::Customer.from_json(json_object: response.body)
+        Paid::Customer.from_json(json_object: response.body)
       end
     end
 
     # @param customer_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
+    # @param request_options [Paid::RequestOptions]
     # @return [Void]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.customers.delete(customer_id: "customerId")
@@ -525,12 +525,12 @@ module PaidApiClient
     end
 
     # @param external_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Customer]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Customer]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.customers.get_by_external_id(external_id: "externalId")
@@ -552,19 +552,19 @@ module PaidApiClient
           end
           req.url "#{@request_client.get_url(request_options: request_options)}/customers/external/#{external_id}"
         end
-        PaidApiClient::Customer.from_json(json_object: response.body)
+        Paid::Customer.from_json(json_object: response.body)
       end
     end
 
     # @param external_id [String]
-    # @param request [Hash] Request of type PaidApiClient::CustomerUpdate, as a Hash
+    # @param request [Hash] Request of type Paid::CustomerUpdate, as a Hash
     #   * :name (String)
     #   * :external_id (String)
     #   * :phone (String)
     #   * :employee_count (Float)
     #   * :annual_revenue (Float)
-    #   * :tax_exempt_status (PaidApiClient::TaxExemptStatus)
-    #   * :creation_source (PaidApiClient::CreationSource)
+    #   * :tax_exempt_status (Paid::TaxExemptStatus)
+    #   * :creation_source (Paid::CreationSource)
     #   * :website (String)
     #   * :billing_address (Hash)
     #     * :line_1 (String)
@@ -573,12 +573,12 @@ module PaidApiClient
     #     * :state (String)
     #     * :zip_code (String)
     #     * :country (String)
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Customer]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Customer]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.customers.update_by_external_id(external_id: "externalId", request: {  })
@@ -598,17 +598,17 @@ module PaidApiClient
           req.body = { **(request || {}), **(request_options&.additional_body_parameters || {}) }.compact
           req.url "#{@request_client.get_url(request_options: request_options)}/customers/external/#{external_id}"
         end
-        PaidApiClient::Customer.from_json(json_object: response.body)
+        Paid::Customer.from_json(json_object: response.body)
       end
     end
 
     # @param external_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
+    # @param request_options [Paid::RequestOptions]
     # @return [Void]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.customers.delete_by_external_id(external_id: "externalId")

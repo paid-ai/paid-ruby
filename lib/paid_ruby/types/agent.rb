@@ -4,7 +4,7 @@ require_relative "agent_attribute"
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   class Agent
     # @return [String]
     attr_reader :id
@@ -20,7 +20,7 @@ module PaidApiClient
     attr_reader :active
     # @return [String]
     attr_reader :agent_code
-    # @return [Array<PaidApiClient::AgentAttribute>]
+    # @return [Array<Paid::AgentAttribute>]
     attr_reader :agent_attributes
     # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
@@ -37,9 +37,9 @@ module PaidApiClient
     # @param description [String]
     # @param active [Boolean]
     # @param agent_code [String]
-    # @param agent_attributes [Array<PaidApiClient::AgentAttribute>]
+    # @param agent_attributes [Array<Paid::AgentAttribute>]
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::Agent]
+    # @return [Paid::Agent]
     def initialize(id:, organization_id:, name:, active:, external_id: OMIT, description: OMIT, agent_code: OMIT,
                    agent_attributes: OMIT, additional_properties: nil)
       @id = id
@@ -68,7 +68,7 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of Agent
     #
     # @param json_object [String]
-    # @return [PaidApiClient::Agent]
+    # @return [Paid::Agent]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)
@@ -81,7 +81,7 @@ module PaidApiClient
       agent_code = parsed_json["agentCode"]
       agent_attributes = parsed_json["agentAttributes"]&.map do |item|
         item = item.to_json
-        PaidApiClient::AgentAttribute.from_json(json_object: item)
+        Paid::AgentAttribute.from_json(json_object: item)
       end
       new(
         id: id,

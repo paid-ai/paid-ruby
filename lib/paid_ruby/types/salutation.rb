@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-module PaidApiClient
+module Paid
   class Salutation
-    MR = "mr"
-    MRS = "mrs"
-    MISS = "miss"
-    MS = "ms"
-    DR = "dr"
-    PROF = "prof"
+    MR = "Mr."
+    MRS = "Mrs."
+    MISS = "Miss"
+    MS = "Ms."
+    DR = "Dr."
+    PROF = "Prof."
   end
 end

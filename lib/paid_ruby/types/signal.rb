@@ -3,7 +3,7 @@
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   class Signal
     # @return [String]
     attr_reader :event_name
@@ -26,7 +26,7 @@ module PaidApiClient
     # @param customer_id [String]
     # @param data [Hash{String => Object}]
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::Signal]
+    # @return [Paid::Signal]
     def initialize(event_name: OMIT, agent_id: OMIT, customer_id: OMIT, data: OMIT, additional_properties: nil)
       @event_name = event_name if event_name != OMIT
       @agent_id = agent_id if agent_id != OMIT
@@ -46,7 +46,7 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of Signal
     #
     # @param json_object [String]
-    # @return [PaidApiClient::Signal]
+    # @return [Paid::Signal]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)

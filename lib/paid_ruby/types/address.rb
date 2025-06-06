@@ -3,7 +3,7 @@
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   class Address
     # @return [String]
     attr_reader :line_1
@@ -32,7 +32,7 @@ module PaidApiClient
     # @param zip_code [String]
     # @param country [String]
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::Address]
+    # @return [Paid::Address]
     def initialize(line_1:, city:, state:, zip_code:, country:, line_2: OMIT, additional_properties: nil)
       @line_1 = line_1
       @line_2 = line_2 if line_2 != OMIT
@@ -56,7 +56,7 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of Address
     #
     # @param json_object [String]
-    # @return [PaidApiClient::Address]
+    # @return [Paid::Address]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)

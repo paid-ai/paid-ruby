@@ -4,7 +4,7 @@ require_relative "tier"
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   class PricePoint
     # @return [String]
     attr_reader :currency
@@ -12,7 +12,7 @@ module PaidApiClient
     attr_reader :unit_price
     # @return [Float]
     attr_reader :min_quantity
-    # @return [Array<PaidApiClient::Tier>]
+    # @return [Array<Paid::Tier>]
     attr_reader :tiers
     # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
@@ -25,9 +25,9 @@ module PaidApiClient
     # @param currency [String]
     # @param unit_price [Float]
     # @param min_quantity [Float]
-    # @param tiers [Array<PaidApiClient::Tier>]
+    # @param tiers [Array<Paid::Tier>]
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::PricePoint]
+    # @return [Paid::PricePoint]
     def initialize(currency: OMIT, unit_price: OMIT, min_quantity: OMIT, tiers: OMIT, additional_properties: nil)
       @currency = currency if currency != OMIT
       @unit_price = unit_price if unit_price != OMIT
@@ -47,7 +47,7 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of PricePoint
     #
     # @param json_object [String]
-    # @return [PaidApiClient::PricePoint]
+    # @return [Paid::PricePoint]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)
@@ -56,7 +56,7 @@ module PaidApiClient
       min_quantity = parsed_json["minQuantity"]
       tiers = parsed_json["tiers"]&.map do |item|
         item = item.to_json
-        PaidApiClient::Tier.from_json(json_object: item)
+        Paid::Tier.from_json(json_object: item)
       end
       new(
         currency: currency,

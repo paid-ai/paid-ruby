@@ -4,7 +4,7 @@ require_relative "agent_price_point_tiers"
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   class AgentPricePoint
     # @return [Float]
     attr_reader :unit_price
@@ -12,7 +12,7 @@ module PaidApiClient
     attr_reader :min_quantity
     # @return [Float]
     attr_reader :included_quantity
-    # @return [PaidApiClient::AgentPricePointTiers]
+    # @return [Array<Paid::AgentPricePointTiers>]
     attr_reader :tiers
     # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
@@ -25,9 +25,9 @@ module PaidApiClient
     # @param unit_price [Float]
     # @param min_quantity [Float]
     # @param included_quantity [Float]
-    # @param tiers [PaidApiClient::AgentPricePointTiers]
+    # @param tiers [Array<Paid::AgentPricePointTiers>]
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::AgentPricePoint]
+    # @return [Paid::AgentPricePoint]
     def initialize(unit_price: OMIT, min_quantity: OMIT, included_quantity: OMIT, tiers: OMIT,
                    additional_properties: nil)
       @unit_price = unit_price if unit_price != OMIT
@@ -48,18 +48,16 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of AgentPricePoint
     #
     # @param json_object [String]
-    # @return [PaidApiClient::AgentPricePoint]
+    # @return [Paid::AgentPricePoint]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)
       unit_price = parsed_json["unitPrice"]
       min_quantity = parsed_json["minQuantity"]
       included_quantity = parsed_json["includedQuantity"]
-      if parsed_json["tiers"].nil?
-        tiers = nil
-      else
-        tiers = parsed_json["tiers"].to_json
-        tiers = PaidApiClient::AgentPricePointTiers.from_json(json_object: tiers)
+      tiers = parsed_json["tiers"]&.map do |item|
+        item = item.to_json
+        Paid::AgentPricePointTiers.from_json(json_object: item)
       end
       new(
         unit_price: unit_price,
@@ -87,7 +85,7 @@ module PaidApiClient
       obj.unit_price&.is_a?(Float) != false || raise("Passed value for field obj.unit_price is not the expected type, validation failed.")
       obj.min_quantity&.is_a?(Float) != false || raise("Passed value for field obj.min_quantity is not the expected type, validation failed.")
       obj.included_quantity&.is_a?(Float) != false || raise("Passed value for field obj.included_quantity is not the expected type, validation failed.")
-      obj.tiers.nil? || PaidApiClient::AgentPricePointTiers.validate_raw(obj: obj.tiers)
+      obj.tiers&.is_a?(Array) != false || raise("Passed value for field obj.tiers is not the expected type, validation failed.")
     end
   end
 end

@@ -4,10 +4,10 @@ require_relative "api_error"
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   # An error response from the Paid API
   class Error
-    # @return [PaidApiClient::ApiError]
+    # @return [Paid::ApiError]
     attr_reader :error
     # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
@@ -17,9 +17,9 @@ module PaidApiClient
 
     OMIT = Object.new
 
-    # @param error [PaidApiClient::ApiError]
+    # @param error [Paid::ApiError]
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::Error]
+    # @return [Paid::Error]
     def initialize(error:, additional_properties: nil)
       @error = error
       @additional_properties = additional_properties
@@ -29,7 +29,7 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of Error
     #
     # @param json_object [String]
-    # @return [PaidApiClient::Error]
+    # @return [Paid::Error]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)
@@ -37,7 +37,7 @@ module PaidApiClient
         error = nil
       else
         error = parsed_json["error"].to_json
-        error = PaidApiClient::ApiError.from_json(json_object: error)
+        error = Paid::ApiError.from_json(json_object: error)
       end
       new(error: error, additional_properties: struct)
     end
@@ -56,7 +56,7 @@ module PaidApiClient
     # @param obj [Object]
     # @return [Void]
     def self.validate_raw(obj:)
-      PaidApiClient::ApiError.validate_raw(obj: obj.error)
+      Paid::ApiError.validate_raw(obj: obj.error)
     end
   end
 end

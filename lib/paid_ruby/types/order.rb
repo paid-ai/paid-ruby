@@ -6,7 +6,7 @@ require_relative "customer"
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   class Order
     # @return [String]
     attr_reader :id
@@ -34,11 +34,11 @@ module PaidApiClient
     attr_reader :total_billed_amount
     # @return [Float]
     attr_reader :pending_billing_amount
-    # @return [PaidApiClient::CreationState]
+    # @return [Paid::CreationState]
     attr_reader :creation_state
-    # @return [Array<PaidApiClient::OrderLine>]
+    # @return [Array<Paid::OrderLine>]
     attr_reader :order_lines
-    # @return [PaidApiClient::Customer]
+    # @return [Paid::Customer]
     attr_reader :customer
     # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
@@ -61,11 +61,11 @@ module PaidApiClient
     # @param billed_tax [Float]
     # @param total_billed_amount [Float]
     # @param pending_billing_amount [Float]
-    # @param creation_state [PaidApiClient::CreationState]
-    # @param order_lines [Array<PaidApiClient::OrderLine>]
-    # @param customer [PaidApiClient::Customer]
+    # @param creation_state [Paid::CreationState]
+    # @param order_lines [Array<Paid::OrderLine>]
+    # @param customer [Paid::Customer]
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::Order]
+    # @return [Paid::Order]
     def initialize(id: OMIT, name: OMIT, description: OMIT, customer_id: OMIT, organization_id: OMIT, start_date: OMIT,
                    end_date: OMIT, total_amount: OMIT, estimated_tax: OMIT, billed_amount_no_tax: OMIT, billed_tax: OMIT, total_billed_amount: OMIT, pending_billing_amount: OMIT, creation_state: OMIT, order_lines: OMIT, customer: OMIT, additional_properties: nil)
       @id = id if id != OMIT
@@ -110,7 +110,7 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of Order
     #
     # @param json_object [String]
-    # @return [PaidApiClient::Order]
+    # @return [Paid::Order]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)
@@ -130,13 +130,13 @@ module PaidApiClient
       creation_state = parsed_json["creationState"]
       order_lines = parsed_json["orderLines"]&.map do |item|
         item = item.to_json
-        PaidApiClient::OrderLine.from_json(json_object: item)
+        Paid::OrderLine.from_json(json_object: item)
       end
       if parsed_json["customer"].nil?
         customer = nil
       else
         customer = parsed_json["customer"].to_json
-        customer = PaidApiClient::Customer.from_json(json_object: customer)
+        customer = Paid::Customer.from_json(json_object: customer)
       end
       new(
         id: id,
@@ -186,9 +186,9 @@ module PaidApiClient
       obj.billed_tax&.is_a?(Float) != false || raise("Passed value for field obj.billed_tax is not the expected type, validation failed.")
       obj.total_billed_amount&.is_a?(Float) != false || raise("Passed value for field obj.total_billed_amount is not the expected type, validation failed.")
       obj.pending_billing_amount&.is_a?(Float) != false || raise("Passed value for field obj.pending_billing_amount is not the expected type, validation failed.")
-      obj.creation_state&.is_a?(PaidApiClient::CreationState) != false || raise("Passed value for field obj.creation_state is not the expected type, validation failed.")
+      obj.creation_state&.is_a?(Paid::CreationState) != false || raise("Passed value for field obj.creation_state is not the expected type, validation failed.")
       obj.order_lines&.is_a?(Array) != false || raise("Passed value for field obj.order_lines is not the expected type, validation failed.")
-      obj.customer.nil? || PaidApiClient::Customer.validate_raw(obj: obj.customer)
+      obj.customer.nil? || Paid::Customer.validate_raw(obj: obj.customer)
     end
   end
 end

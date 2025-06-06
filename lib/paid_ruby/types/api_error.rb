@@ -3,7 +3,7 @@
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   # An API error response from the Paid API
   class ApiError
     # @return [String] A human-readable message providing more details about the error.
@@ -18,7 +18,7 @@ module PaidApiClient
 
     # @param message [String] A human-readable message providing more details about the error.
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::ApiError]
+    # @return [Paid::ApiError]
     def initialize(message: OMIT, additional_properties: nil)
       @message = message if message != OMIT
       @additional_properties = additional_properties
@@ -30,7 +30,7 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of ApiError
     #
     # @param json_object [String]
-    # @return [PaidApiClient::ApiError]
+    # @return [Paid::ApiError]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)

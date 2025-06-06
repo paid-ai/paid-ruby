@@ -6,23 +6,23 @@ require "json"
 require_relative "../types/agent_update"
 require "async"
 
-module PaidApiClient
+module Paid
   class AgentsClient
-    # @return [PaidApiClient::RequestClient]
+    # @return [Paid::RequestClient]
     attr_reader :request_client
 
-    # @param request_client [PaidApiClient::RequestClient]
-    # @return [PaidApiClient::AgentsClient]
+    # @param request_client [Paid::RequestClient]
+    # @return [Paid::AgentsClient]
     def initialize(request_client:)
       @request_client = request_client
     end
 
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [Array<PaidApiClient::Agent>]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Array<Paid::Agent>]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.agents.list
@@ -46,7 +46,7 @@ module PaidApiClient
       parsed_json = JSON.parse(response.body)
       parsed_json&.map do |item|
         item = item.to_json
-        PaidApiClient::Agent.from_json(json_object: item)
+        Paid::Agent.from_json(json_object: item)
       end
     end
 
@@ -54,12 +54,12 @@ module PaidApiClient
     # @param description [String]
     # @param agent_code [String]
     # @param external_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Agent]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Agent]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.agents.create(name: "name", description: "description")
@@ -84,16 +84,16 @@ module PaidApiClient
         }.compact
         req.url "#{@request_client.get_url(request_options: request_options)}/agents"
       end
-      PaidApiClient::Agent.from_json(json_object: response.body)
+      Paid::Agent.from_json(json_object: response.body)
     end
 
     # @param agent_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Agent]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Agent]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.agents.get(agent_id: "agentId")
@@ -114,23 +114,23 @@ module PaidApiClient
         end
         req.url "#{@request_client.get_url(request_options: request_options)}/agents/#{agent_id}"
       end
-      PaidApiClient::Agent.from_json(json_object: response.body)
+      Paid::Agent.from_json(json_object: response.body)
     end
 
     # @param agent_id [String]
-    # @param request [Hash] Request of type PaidApiClient::AgentUpdate, as a Hash
+    # @param request [Hash] Request of type Paid::AgentUpdate, as a Hash
     #   * :name (String)
     #   * :description (String)
     #   * :external_id (String)
     #   * :active (Boolean)
     #   * :agent_code (String)
-    #   * :agent_attributes (Array<PaidApiClient::AgentAttribute>)
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Agent]
+    #   * :agent_attributes (Array<Paid::AgentAttribute>)
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Agent]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.agents.update(agent_id: "agentId", request: {  })
@@ -149,16 +149,16 @@ module PaidApiClient
         req.body = { **(request || {}), **(request_options&.additional_body_parameters || {}) }.compact
         req.url "#{@request_client.get_url(request_options: request_options)}/agents/#{agent_id}"
       end
-      PaidApiClient::Agent.from_json(json_object: response.body)
+      Paid::Agent.from_json(json_object: response.body)
     end
 
     # @param agent_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
+    # @param request_options [Paid::RequestOptions]
     # @return [Void]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.agents.delete(agent_id: "agentId")
@@ -182,12 +182,12 @@ module PaidApiClient
     end
 
     # @param external_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Agent]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Agent]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.agents.get_by_external_id(external_id: "externalId")
@@ -208,23 +208,23 @@ module PaidApiClient
         end
         req.url "#{@request_client.get_url(request_options: request_options)}/agents/external/#{external_id}"
       end
-      PaidApiClient::Agent.from_json(json_object: response.body)
+      Paid::Agent.from_json(json_object: response.body)
     end
 
     # @param external_id [String]
-    # @param request [Hash] Request of type PaidApiClient::AgentUpdate, as a Hash
+    # @param request [Hash] Request of type Paid::AgentUpdate, as a Hash
     #   * :name (String)
     #   * :description (String)
     #   * :external_id (String)
     #   * :active (Boolean)
     #   * :agent_code (String)
-    #   * :agent_attributes (Array<PaidApiClient::AgentAttribute>)
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Agent]
+    #   * :agent_attributes (Array<Paid::AgentAttribute>)
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Agent]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.agents.update_by_external_id(external_id: "externalId", request: {  })
@@ -243,16 +243,16 @@ module PaidApiClient
         req.body = { **(request || {}), **(request_options&.additional_body_parameters || {}) }.compact
         req.url "#{@request_client.get_url(request_options: request_options)}/agents/external/#{external_id}"
       end
-      PaidApiClient::Agent.from_json(json_object: response.body)
+      Paid::Agent.from_json(json_object: response.body)
     end
 
     # @param external_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
+    # @param request_options [Paid::RequestOptions]
     # @return [Void]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.agents.delete_by_external_id(external_id: "externalId")
@@ -277,21 +277,21 @@ module PaidApiClient
   end
 
   class AsyncAgentsClient
-    # @return [PaidApiClient::AsyncRequestClient]
+    # @return [Paid::AsyncRequestClient]
     attr_reader :request_client
 
-    # @param request_client [PaidApiClient::AsyncRequestClient]
-    # @return [PaidApiClient::AsyncAgentsClient]
+    # @param request_client [Paid::AsyncRequestClient]
+    # @return [Paid::AsyncAgentsClient]
     def initialize(request_client:)
       @request_client = request_client
     end
 
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [Array<PaidApiClient::Agent>]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Array<Paid::Agent>]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.agents.list
@@ -316,7 +316,7 @@ module PaidApiClient
         parsed_json = JSON.parse(response.body)
         parsed_json&.map do |item|
           item = item.to_json
-          PaidApiClient::Agent.from_json(json_object: item)
+          Paid::Agent.from_json(json_object: item)
         end
       end
     end
@@ -325,12 +325,12 @@ module PaidApiClient
     # @param description [String]
     # @param agent_code [String]
     # @param external_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Agent]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Agent]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.agents.create(name: "name", description: "description")
@@ -356,17 +356,17 @@ module PaidApiClient
           }.compact
           req.url "#{@request_client.get_url(request_options: request_options)}/agents"
         end
-        PaidApiClient::Agent.from_json(json_object: response.body)
+        Paid::Agent.from_json(json_object: response.body)
       end
     end
 
     # @param agent_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Agent]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Agent]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.agents.get(agent_id: "agentId")
@@ -388,24 +388,24 @@ module PaidApiClient
           end
           req.url "#{@request_client.get_url(request_options: request_options)}/agents/#{agent_id}"
         end
-        PaidApiClient::Agent.from_json(json_object: response.body)
+        Paid::Agent.from_json(json_object: response.body)
       end
     end
 
     # @param agent_id [String]
-    # @param request [Hash] Request of type PaidApiClient::AgentUpdate, as a Hash
+    # @param request [Hash] Request of type Paid::AgentUpdate, as a Hash
     #   * :name (String)
     #   * :description (String)
     #   * :external_id (String)
     #   * :active (Boolean)
     #   * :agent_code (String)
-    #   * :agent_attributes (Array<PaidApiClient::AgentAttribute>)
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Agent]
+    #   * :agent_attributes (Array<Paid::AgentAttribute>)
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Agent]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.agents.update(agent_id: "agentId", request: {  })
@@ -425,17 +425,17 @@ module PaidApiClient
           req.body = { **(request || {}), **(request_options&.additional_body_parameters || {}) }.compact
           req.url "#{@request_client.get_url(request_options: request_options)}/agents/#{agent_id}"
         end
-        PaidApiClient::Agent.from_json(json_object: response.body)
+        Paid::Agent.from_json(json_object: response.body)
       end
     end
 
     # @param agent_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
+    # @param request_options [Paid::RequestOptions]
     # @return [Void]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.agents.delete(agent_id: "agentId")
@@ -461,12 +461,12 @@ module PaidApiClient
     end
 
     # @param external_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Agent]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Agent]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.agents.get_by_external_id(external_id: "externalId")
@@ -488,24 +488,24 @@ module PaidApiClient
           end
           req.url "#{@request_client.get_url(request_options: request_options)}/agents/external/#{external_id}"
         end
-        PaidApiClient::Agent.from_json(json_object: response.body)
+        Paid::Agent.from_json(json_object: response.body)
       end
     end
 
     # @param external_id [String]
-    # @param request [Hash] Request of type PaidApiClient::AgentUpdate, as a Hash
+    # @param request [Hash] Request of type Paid::AgentUpdate, as a Hash
     #   * :name (String)
     #   * :description (String)
     #   * :external_id (String)
     #   * :active (Boolean)
     #   * :agent_code (String)
-    #   * :agent_attributes (Array<PaidApiClient::AgentAttribute>)
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Agent]
+    #   * :agent_attributes (Array<Paid::AgentAttribute>)
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Agent]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.agents.update_by_external_id(external_id: "externalId", request: {  })
@@ -525,17 +525,17 @@ module PaidApiClient
           req.body = { **(request || {}), **(request_options&.additional_body_parameters || {}) }.compact
           req.url "#{@request_client.get_url(request_options: request_options)}/agents/external/#{external_id}"
         end
-        PaidApiClient::Agent.from_json(json_object: response.body)
+        Paid::Agent.from_json(json_object: response.body)
       end
     end
 
     # @param external_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
+    # @param request_options [Paid::RequestOptions]
     # @return [Void]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.agents.delete_by_external_id(external_id: "externalId")

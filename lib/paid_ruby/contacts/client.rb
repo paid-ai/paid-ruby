@@ -6,23 +6,23 @@ require "json"
 require_relative "../types/salutation"
 require "async"
 
-module PaidApiClient
+module Paid
   class ContactsClient
-    # @return [PaidApiClient::RequestClient]
+    # @return [Paid::RequestClient]
     attr_reader :request_client
 
-    # @param request_client [PaidApiClient::RequestClient]
-    # @return [PaidApiClient::ContactsClient]
+    # @param request_client [Paid::RequestClient]
+    # @return [Paid::ContactsClient]
     def initialize(request_client:)
       @request_client = request_client
     end
 
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [Array<PaidApiClient::Contact>]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Array<Paid::Contact>]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.contacts.list
@@ -46,14 +46,14 @@ module PaidApiClient
       parsed_json = JSON.parse(response.body)
       parsed_json&.map do |item|
         item = item.to_json
-        PaidApiClient::Contact.from_json(json_object: item)
+        Paid::Contact.from_json(json_object: item)
       end
     end
 
     # @param external_id [String]
-    # @param account_id [String]
-    # @param account_external_id [String]
-    # @param salutation [PaidApiClient::Salutation]
+    # @param customer_id [String]
+    # @param customer_external_id [String]
+    # @param salutation [Paid::Salutation]
     # @param first_name [String]
     # @param last_name [String]
     # @param email [String]
@@ -63,15 +63,16 @@ module PaidApiClient
     # @param billing_state_province [String]
     # @param billing_country [String]
     # @param billing_zip_postal_code [String]
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Contact]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Contact]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.contacts.create(
+    #    salutation: MR,
     #    first_name: "firstName",
     #    last_name: "lastName",
     #    email: "email",
@@ -80,8 +81,8 @@ module PaidApiClient
     #    billing_country: "billingCountry",
     #    billing_zip_postal_code: "billingZipPostalCode"
     #  )
-    def create(first_name:, last_name:, email:, billing_street:, billing_city:, billing_country:,
-               billing_zip_postal_code:, external_id: nil, account_id: nil, account_external_id: nil, salutation: nil, phone: nil, billing_state_province: nil, request_options: nil)
+    def create(salutation:, first_name:, last_name:, email:, billing_street:, billing_city:, billing_country:,
+               billing_zip_postal_code:, external_id: nil, customer_id: nil, customer_external_id: nil, phone: nil, billing_state_province: nil, request_options: nil)
       response = @request_client.conn.post do |req|
         req.options.timeout = request_options.timeout_in_seconds unless request_options&.timeout_in_seconds.nil?
         req.headers["Authorization"] = request_options.token unless request_options&.token.nil?
@@ -96,8 +97,8 @@ module PaidApiClient
         req.body = {
           **(request_options&.additional_body_parameters || {}),
           externalId: external_id,
-          accountId: account_id,
-          accountExternalId: account_external_id,
+          customerId: customer_id,
+          customerExternalId: customer_external_id,
           salutation: salutation,
           firstName: first_name,
           lastName: last_name,
@@ -111,16 +112,16 @@ module PaidApiClient
         }.compact
         req.url "#{@request_client.get_url(request_options: request_options)}/contacts"
       end
-      PaidApiClient::Contact.from_json(json_object: response.body)
+      Paid::Contact.from_json(json_object: response.body)
     end
 
     # @param contact_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Contact]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Contact]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.contacts.get(contact_id: "contactId")
@@ -141,16 +142,16 @@ module PaidApiClient
         end
         req.url "#{@request_client.get_url(request_options: request_options)}/contacts/#{contact_id}"
       end
-      PaidApiClient::Contact.from_json(json_object: response.body)
+      Paid::Contact.from_json(json_object: response.body)
     end
 
     # @param contact_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
+    # @param request_options [Paid::RequestOptions]
     # @return [Void]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.contacts.delete(contact_id: "contactId")
@@ -174,12 +175,12 @@ module PaidApiClient
     end
 
     # @param external_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Contact]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Contact]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.contacts.get_by_external_id(external_id: "externalId")
@@ -200,16 +201,16 @@ module PaidApiClient
         end
         req.url "#{@request_client.get_url(request_options: request_options)}/contacts/external/#{external_id}"
       end
-      PaidApiClient::Contact.from_json(json_object: response.body)
+      Paid::Contact.from_json(json_object: response.body)
     end
 
     # @param external_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
+    # @param request_options [Paid::RequestOptions]
     # @return [Void]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.contacts.delete_by_external_id(external_id: "externalId")
@@ -234,21 +235,21 @@ module PaidApiClient
   end
 
   class AsyncContactsClient
-    # @return [PaidApiClient::AsyncRequestClient]
+    # @return [Paid::AsyncRequestClient]
     attr_reader :request_client
 
-    # @param request_client [PaidApiClient::AsyncRequestClient]
-    # @return [PaidApiClient::AsyncContactsClient]
+    # @param request_client [Paid::AsyncRequestClient]
+    # @return [Paid::AsyncContactsClient]
     def initialize(request_client:)
       @request_client = request_client
     end
 
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [Array<PaidApiClient::Contact>]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Array<Paid::Contact>]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.contacts.list
@@ -273,15 +274,15 @@ module PaidApiClient
         parsed_json = JSON.parse(response.body)
         parsed_json&.map do |item|
           item = item.to_json
-          PaidApiClient::Contact.from_json(json_object: item)
+          Paid::Contact.from_json(json_object: item)
         end
       end
     end
 
     # @param external_id [String]
-    # @param account_id [String]
-    # @param account_external_id [String]
-    # @param salutation [PaidApiClient::Salutation]
+    # @param customer_id [String]
+    # @param customer_external_id [String]
+    # @param salutation [Paid::Salutation]
     # @param first_name [String]
     # @param last_name [String]
     # @param email [String]
@@ -291,15 +292,16 @@ module PaidApiClient
     # @param billing_state_province [String]
     # @param billing_country [String]
     # @param billing_zip_postal_code [String]
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Contact]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Contact]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.contacts.create(
+    #    salutation: MR,
     #    first_name: "firstName",
     #    last_name: "lastName",
     #    email: "email",
@@ -308,8 +310,8 @@ module PaidApiClient
     #    billing_country: "billingCountry",
     #    billing_zip_postal_code: "billingZipPostalCode"
     #  )
-    def create(first_name:, last_name:, email:, billing_street:, billing_city:, billing_country:,
-               billing_zip_postal_code:, external_id: nil, account_id: nil, account_external_id: nil, salutation: nil, phone: nil, billing_state_province: nil, request_options: nil)
+    def create(salutation:, first_name:, last_name:, email:, billing_street:, billing_city:, billing_country:,
+               billing_zip_postal_code:, external_id: nil, customer_id: nil, customer_external_id: nil, phone: nil, billing_state_province: nil, request_options: nil)
       Async do
         response = @request_client.conn.post do |req|
           req.options.timeout = request_options.timeout_in_seconds unless request_options&.timeout_in_seconds.nil?
@@ -325,8 +327,8 @@ module PaidApiClient
           req.body = {
             **(request_options&.additional_body_parameters || {}),
             externalId: external_id,
-            accountId: account_id,
-            accountExternalId: account_external_id,
+            customerId: customer_id,
+            customerExternalId: customer_external_id,
             salutation: salutation,
             firstName: first_name,
             lastName: last_name,
@@ -340,17 +342,17 @@ module PaidApiClient
           }.compact
           req.url "#{@request_client.get_url(request_options: request_options)}/contacts"
         end
-        PaidApiClient::Contact.from_json(json_object: response.body)
+        Paid::Contact.from_json(json_object: response.body)
       end
     end
 
     # @param contact_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Contact]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Contact]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.contacts.get(contact_id: "contactId")
@@ -372,17 +374,17 @@ module PaidApiClient
           end
           req.url "#{@request_client.get_url(request_options: request_options)}/contacts/#{contact_id}"
         end
-        PaidApiClient::Contact.from_json(json_object: response.body)
+        Paid::Contact.from_json(json_object: response.body)
       end
     end
 
     # @param contact_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
+    # @param request_options [Paid::RequestOptions]
     # @return [Void]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.contacts.delete(contact_id: "contactId")
@@ -408,12 +410,12 @@ module PaidApiClient
     end
 
     # @param external_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [PaidApiClient::Contact]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Paid::Contact]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.contacts.get_by_external_id(external_id: "externalId")
@@ -435,17 +437,17 @@ module PaidApiClient
           end
           req.url "#{@request_client.get_url(request_options: request_options)}/contacts/external/#{external_id}"
         end
-        PaidApiClient::Contact.from_json(json_object: response.body)
+        Paid::Contact.from_json(json_object: response.body)
       end
     end
 
     # @param external_id [String]
-    # @param request_options [PaidApiClient::RequestOptions]
+    # @param request_options [Paid::RequestOptions]
     # @return [Void]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
     #  api.contacts.delete_by_external_id(external_id: "externalId")

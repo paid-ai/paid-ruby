@@ -6,7 +6,7 @@ require_relative "address"
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   class CustomerUpdate
     # @return [String]
     attr_reader :name
@@ -18,13 +18,13 @@ module PaidApiClient
     attr_reader :employee_count
     # @return [Float]
     attr_reader :annual_revenue
-    # @return [PaidApiClient::TaxExemptStatus]
+    # @return [Paid::TaxExemptStatus]
     attr_reader :tax_exempt_status
-    # @return [PaidApiClient::CreationSource]
+    # @return [Paid::CreationSource]
     attr_reader :creation_source
     # @return [String]
     attr_reader :website
-    # @return [PaidApiClient::Address]
+    # @return [Paid::Address]
     attr_reader :billing_address
     # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
@@ -39,12 +39,12 @@ module PaidApiClient
     # @param phone [String]
     # @param employee_count [Float]
     # @param annual_revenue [Float]
-    # @param tax_exempt_status [PaidApiClient::TaxExemptStatus]
-    # @param creation_source [PaidApiClient::CreationSource]
+    # @param tax_exempt_status [Paid::TaxExemptStatus]
+    # @param creation_source [Paid::CreationSource]
     # @param website [String]
-    # @param billing_address [PaidApiClient::Address]
+    # @param billing_address [Paid::Address]
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::CustomerUpdate]
+    # @return [Paid::CustomerUpdate]
     def initialize(name: OMIT, external_id: OMIT, phone: OMIT, employee_count: OMIT, annual_revenue: OMIT,
                    tax_exempt_status: OMIT, creation_source: OMIT, website: OMIT, billing_address: OMIT, additional_properties: nil)
       @name = name if name != OMIT
@@ -75,7 +75,7 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of CustomerUpdate
     #
     # @param json_object [String]
-    # @return [PaidApiClient::CustomerUpdate]
+    # @return [Paid::CustomerUpdate]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)
@@ -91,7 +91,7 @@ module PaidApiClient
         billing_address = nil
       else
         billing_address = parsed_json["billingAddress"].to_json
-        billing_address = PaidApiClient::Address.from_json(json_object: billing_address)
+        billing_address = Paid::Address.from_json(json_object: billing_address)
       end
       new(
         name: name,
@@ -126,10 +126,10 @@ module PaidApiClient
       obj.phone&.is_a?(String) != false || raise("Passed value for field obj.phone is not the expected type, validation failed.")
       obj.employee_count&.is_a?(Float) != false || raise("Passed value for field obj.employee_count is not the expected type, validation failed.")
       obj.annual_revenue&.is_a?(Float) != false || raise("Passed value for field obj.annual_revenue is not the expected type, validation failed.")
-      obj.tax_exempt_status&.is_a?(PaidApiClient::TaxExemptStatus) != false || raise("Passed value for field obj.tax_exempt_status is not the expected type, validation failed.")
-      obj.creation_source&.is_a?(PaidApiClient::CreationSource) != false || raise("Passed value for field obj.creation_source is not the expected type, validation failed.")
+      obj.tax_exempt_status&.is_a?(Paid::TaxExemptStatus) != false || raise("Passed value for field obj.tax_exempt_status is not the expected type, validation failed.")
+      obj.creation_source&.is_a?(Paid::CreationSource) != false || raise("Passed value for field obj.creation_source is not the expected type, validation failed.")
       obj.website&.is_a?(String) != false || raise("Passed value for field obj.website is not the expected type, validation failed.")
-      obj.billing_address.nil? || PaidApiClient::Address.validate_raw(obj: obj.billing_address)
+      obj.billing_address.nil? || Paid::Address.validate_raw(obj: obj.billing_address)
     end
   end
 end

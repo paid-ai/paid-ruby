@@ -2,35 +2,36 @@
 
 require_relative "../../requests"
 require_relative "../types/signal"
+require "json"
 require "async"
 
-module PaidApiClient
+module Paid
   class UsageClient
-    # @return [PaidApiClient::RequestClient]
+    # @return [Paid::RequestClient]
     attr_reader :request_client
 
-    # @param request_client [PaidApiClient::RequestClient]
-    # @return [PaidApiClient::UsageClient]
+    # @param request_client [Paid::RequestClient]
+    # @return [Paid::UsageClient]
     def initialize(request_client:)
       @request_client = request_client
     end
 
-    # @param request [Array<Hash>] Request of type Array<PaidApiClient::Signal>, as a Hash
+    # @param signals [Array<Hash>] Request of type Array<Paid::Signal>, as a Hash
     #   * :event_name (String)
     #   * :agent_id (String)
     #   * :customer_id (String)
     #   * :data (Hash{String => Object})
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [Void]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Array<Object>]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
-    #  api.usage.record(request: [{  }])
-    def record(request:, request_options: nil)
-      @request_client.conn.post do |req|
+    #  api.usage.record_bulk
+    def record_bulk(signals: nil, request_options: nil)
+      response = @request_client.conn.post do |req|
         req.options.timeout = request_options.timeout_in_seconds unless request_options&.timeout_in_seconds.nil?
         req.headers["Authorization"] = request_options.token unless request_options&.token.nil?
         req.headers = {
@@ -41,39 +42,40 @@ module PaidApiClient
         unless request_options.nil? || request_options&.additional_query_parameters.nil?
           req.params = { **(request_options&.additional_query_parameters || {}) }.compact
         end
-        req.body = { **(request || {}), **(request_options&.additional_body_parameters || {}) }.compact
+        req.body = { **(request_options&.additional_body_parameters || {}), signals: signals }.compact
         req.url "#{@request_client.get_url(request_options: request_options)}/usage/signals/bulk"
       end
+      JSON.parse(response.body)
     end
   end
 
   class AsyncUsageClient
-    # @return [PaidApiClient::AsyncRequestClient]
+    # @return [Paid::AsyncRequestClient]
     attr_reader :request_client
 
-    # @param request_client [PaidApiClient::AsyncRequestClient]
-    # @return [PaidApiClient::AsyncUsageClient]
+    # @param request_client [Paid::AsyncRequestClient]
+    # @return [Paid::AsyncUsageClient]
     def initialize(request_client:)
       @request_client = request_client
     end
 
-    # @param request [Array<Hash>] Request of type Array<PaidApiClient::Signal>, as a Hash
+    # @param signals [Array<Hash>] Request of type Array<Paid::Signal>, as a Hash
     #   * :event_name (String)
     #   * :agent_id (String)
     #   * :customer_id (String)
     #   * :data (Hash{String => Object})
-    # @param request_options [PaidApiClient::RequestOptions]
-    # @return [Void]
+    # @param request_options [Paid::RequestOptions]
+    # @return [Array<Object>]
     # @example
-    #  api = PaidApiClient::Client.new(
+    #  api = Paid::Client.new(
     #    base_url: "https://api.example.com",
-    #    environment: PaidApiClient::Environment::DEFAULT,
+    #    environment: Paid::Environment::PRODUCTION,
     #    token: "YOUR_AUTH_TOKEN"
     #  )
-    #  api.usage.record(request: [{  }])
-    def record(request:, request_options: nil)
+    #  api.usage.record_bulk
+    def record_bulk(signals: nil, request_options: nil)
       Async do
-        @request_client.conn.post do |req|
+        response = @request_client.conn.post do |req|
           req.options.timeout = request_options.timeout_in_seconds unless request_options&.timeout_in_seconds.nil?
           req.headers["Authorization"] = request_options.token unless request_options&.token.nil?
           req.headers = {
@@ -84,9 +86,11 @@ module PaidApiClient
           unless request_options.nil? || request_options&.additional_query_parameters.nil?
             req.params = { **(request_options&.additional_query_parameters || {}) }.compact
           end
-          req.body = { **(request || {}), **(request_options&.additional_body_parameters || {}) }.compact
+          req.body = { **(request_options&.additional_body_parameters || {}), signals: signals }.compact
           req.url "#{@request_client.get_url(request_options: request_options)}/usage/signals/bulk"
         end
+        parsed_json = JSON.parse(response.body)
+        parsed_json
       end
     end
   end

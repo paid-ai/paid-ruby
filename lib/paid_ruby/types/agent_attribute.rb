@@ -4,13 +4,13 @@ require_relative "pricing"
 require "ostruct"
 require "json"
 
-module PaidApiClient
+module Paid
   class AgentAttribute
     # @return [String]
     attr_reader :name
     # @return [Boolean]
     attr_reader :active
-    # @return [PaidApiClient::Pricing]
+    # @return [Paid::Pricing]
     attr_reader :pricing
     # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
@@ -22,9 +22,9 @@ module PaidApiClient
 
     # @param name [String]
     # @param active [Boolean]
-    # @param pricing [PaidApiClient::Pricing]
+    # @param pricing [Paid::Pricing]
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
-    # @return [PaidApiClient::AgentAttribute]
+    # @return [Paid::AgentAttribute]
     def initialize(name:, active:, pricing:, additional_properties: nil)
       @name = name
       @active = active
@@ -36,7 +36,7 @@ module PaidApiClient
     # Deserialize a JSON object to an instance of AgentAttribute
     #
     # @param json_object [String]
-    # @return [PaidApiClient::AgentAttribute]
+    # @return [Paid::AgentAttribute]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)
@@ -46,7 +46,7 @@ module PaidApiClient
         pricing = nil
       else
         pricing = parsed_json["pricing"].to_json
-        pricing = PaidApiClient::Pricing.from_json(json_object: pricing)
+        pricing = Paid::Pricing.from_json(json_object: pricing)
       end
       new(
         name: name,
@@ -72,7 +72,7 @@ module PaidApiClient
     def self.validate_raw(obj:)
       obj.name.is_a?(String) != false || raise("Passed value for field obj.name is not the expected type, validation failed.")
       obj.active.is_a?(Boolean) != false || raise("Passed value for field obj.active is not the expected type, validation failed.")
-      PaidApiClient::Pricing.validate_raw(obj: obj.pricing)
+      Paid::Pricing.validate_raw(obj: obj.pricing)
     end
   end
 end
