@@ -8,6 +8,7 @@ require_relative "paid_ruby/agents/client"
 require_relative "paid_ruby/contacts/client"
 require_relative "paid_ruby/orders/client"
 require_relative "paid_ruby/usage/client"
+require_relative "extensions/batch"
 
 module Paid
   class Client
