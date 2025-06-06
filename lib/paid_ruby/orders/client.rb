@@ -158,39 +158,6 @@ module Paid
     end
 
     # @param order_id [String]
-    # @param lines [Array<Hash>] Request of type Array<Paid::OrderLineCreate>, as a Hash
-    #   * :agent_id (String)
-    #   * :agent_external_id (String)
-    #   * :name (String)
-    #   * :description (String)
-    # @param request_options [Paid::RequestOptions]
-    # @return [Paid::Order]
-    # @example
-    #  api = Paid::Client.new(
-    #    base_url: "https://api.example.com",
-    #    environment: Paid::Environment::PRODUCTION,
-    #    token: "YOUR_AUTH_TOKEN"
-    #  )
-    #  api.orders.lines_update(order_id: "orderId")
-    def lines_update(order_id:, lines: nil, request_options: nil)
-      response = @request_client.conn.put do |req|
-        req.options.timeout = request_options.timeout_in_seconds unless request_options&.timeout_in_seconds.nil?
-        req.headers["Authorization"] = request_options.token unless request_options&.token.nil?
-        req.headers = {
-      **(req.headers || {}),
-      **@request_client.get_headers,
-      **(request_options&.additional_headers || {})
-        }.compact
-        unless request_options.nil? || request_options&.additional_query_parameters.nil?
-          req.params = { **(request_options&.additional_query_parameters || {}) }.compact
-        end
-        req.body = { **(request_options&.additional_body_parameters || {}), lines: lines }.compact
-        req.url "#{@request_client.get_url(request_options: request_options)}/orders/#{order_id}/lines"
-      end
-      Paid::Order.from_json(json_object: response.body)
-    end
-
-    # @param order_id [String]
     # @param request_options [Paid::RequestOptions]
     # @return [Paid::Order]
     # @example
@@ -376,41 +343,6 @@ module Paid
           end
           req.url "#{@request_client.get_url(request_options: request_options)}/orders/#{order_id}"
         end
-      end
-    end
-
-    # @param order_id [String]
-    # @param lines [Array<Hash>] Request of type Array<Paid::OrderLineCreate>, as a Hash
-    #   * :agent_id (String)
-    #   * :agent_external_id (String)
-    #   * :name (String)
-    #   * :description (String)
-    # @param request_options [Paid::RequestOptions]
-    # @return [Paid::Order]
-    # @example
-    #  api = Paid::Client.new(
-    #    base_url: "https://api.example.com",
-    #    environment: Paid::Environment::PRODUCTION,
-    #    token: "YOUR_AUTH_TOKEN"
-    #  )
-    #  api.orders.lines_update(order_id: "orderId")
-    def lines_update(order_id:, lines: nil, request_options: nil)
-      Async do
-        response = @request_client.conn.put do |req|
-          req.options.timeout = request_options.timeout_in_seconds unless request_options&.timeout_in_seconds.nil?
-          req.headers["Authorization"] = request_options.token unless request_options&.token.nil?
-          req.headers = {
-        **(req.headers || {}),
-        **@request_client.get_headers,
-        **(request_options&.additional_headers || {})
-          }.compact
-          unless request_options.nil? || request_options&.additional_query_parameters.nil?
-            req.params = { **(request_options&.additional_query_parameters || {}) }.compact
-          end
-          req.body = { **(request_options&.additional_body_parameters || {}), lines: lines }.compact
-          req.url "#{@request_client.get_url(request_options: request_options)}/orders/#{order_id}/lines"
-        end
-        Paid::Order.from_json(json_object: response.body)
       end
     end
 
