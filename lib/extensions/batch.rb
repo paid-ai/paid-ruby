@@ -3,7 +3,7 @@
 
 module Paid
   class BatchUsageClient < Paid::UsageClient
-    def flush()
+    def flush(request_options: nil)
       record_bulk(signals: @signals, request_options: request_options)
       @signals = []
     end
@@ -17,9 +17,5 @@ module Paid
       end
     end
   end
-
-
   UsageClient = BatchUsageClient
-
-
 end
