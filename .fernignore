@@ -1,2 +1,5 @@
 # Specify files that shouldn't be modified by Fern
 README.md
+
+lib/paid_ruby.rb
+lib/extensions/batch.rb
