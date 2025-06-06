@@ -4,7 +4,7 @@ require_relative "lib/gemconfig"
 
 Gem::Specification.new do |spec|
   spec.name = "paid_ruby"
-  spec.version = "0.4.0"
+  spec.version = "0.4.1"
   spec.authors = Paid::Gemconfig::AUTHORS
   spec.email = Paid::Gemconfig::EMAIL
   spec.summary = Paid::Gemconfig::SUMMARY
