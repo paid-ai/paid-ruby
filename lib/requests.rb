@@ -43,7 +43,7 @@ module Paid
 
     # @return [Hash{String => String}]
     def get_headers
-      headers = { "X-Fern-Language": "Ruby", "X-Fern-SDK-Name": "paid_ruby", "X-Fern-SDK-Version": "0.4.4" }
+      headers = { "X-Fern-Language": "Ruby", "X-Fern-SDK-Name": "paid_ruby", "X-Fern-SDK-Version": "0.4.5" }
       headers["Authorization"] = ((@token.is_a? Method) ? @token.call : @token) unless @token.nil?
       headers
     end
@@ -87,7 +87,7 @@ module Paid
 
     # @return [Hash{String => String}]
     def get_headers
-      headers = { "X-Fern-Language": "Ruby", "X-Fern-SDK-Name": "paid_ruby", "X-Fern-SDK-Version": "0.4.4" }
+      headers = { "X-Fern-Language": "Ruby", "X-Fern-SDK-Name": "paid_ruby", "X-Fern-SDK-Version": "0.4.5" }
       headers["Authorization"] = ((@token.is_a? Method) ? @token.call : @token) unless @token.nil?
       headers
     end
