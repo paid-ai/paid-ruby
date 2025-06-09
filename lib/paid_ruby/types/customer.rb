@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require_relative "tax_exempt_status"
 require_relative "creation_source"
 require_relative "creation_state"
@@ -9,54 +8,53 @@ require "json"
 
 module Paid
   class Customer
-    # @return [String]
+  # @return [String] 
     attr_reader :id
-    # @return [String]
+  # @return [String] 
     attr_reader :organization_id
-    # @return [String]
+  # @return [String] 
     attr_reader :name
-    # @return [String]
+  # @return [String] 
     attr_reader :external_id
-    # @return [String]
+  # @return [String] 
     attr_reader :phone
-    # @return [Float]
+  # @return [Float] 
     attr_reader :employee_count
-    # @return [Float]
+  # @return [Float] 
     attr_reader :annual_revenue
-    # @return [Paid::TaxExemptStatus]
+  # @return [Paid::TaxExemptStatus] 
     attr_reader :tax_exempt_status
-    # @return [Paid::CreationSource]
+  # @return [Paid::CreationSource] 
     attr_reader :creation_source
-    # @return [Paid::CreationState]
+  # @return [Paid::CreationState] 
     attr_reader :creation_state
-    # @return [String]
+  # @return [String] 
     attr_reader :website
-    # @return [Paid::Address]
+  # @return [Paid::Address] 
     attr_reader :billing_address
-    # @return [OpenStruct] Additional properties unmapped to the current class definition
+  # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
-    # @return [Object]
+  # @return [Object] 
     attr_reader :_field_set
     protected :_field_set
 
     OMIT = Object.new
 
-    # @param id [String]
-    # @param organization_id [String]
-    # @param name [String]
-    # @param external_id [String]
-    # @param phone [String]
-    # @param employee_count [Float]
-    # @param annual_revenue [Float]
-    # @param tax_exempt_status [Paid::TaxExemptStatus]
-    # @param creation_source [Paid::CreationSource]
-    # @param creation_state [Paid::CreationState]
-    # @param website [String]
-    # @param billing_address [Paid::Address]
+    # @param id [String] 
+    # @param organization_id [String] 
+    # @param name [String] 
+    # @param external_id [String] 
+    # @param phone [String] 
+    # @param employee_count [Float] 
+    # @param annual_revenue [Float] 
+    # @param tax_exempt_status [Paid::TaxExemptStatus] 
+    # @param creation_source [Paid::CreationSource] 
+    # @param creation_state [Paid::CreationState] 
+    # @param website [String] 
+    # @param billing_address [Paid::Address] 
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
     # @return [Paid::Customer]
-    def initialize(id:, organization_id:, name:, external_id: OMIT, phone: OMIT, employee_count: OMIT,
-                   annual_revenue: OMIT, tax_exempt_status: OMIT, creation_source: OMIT, creation_state: OMIT, website: OMIT, billing_address: OMIT, additional_properties: nil)
+    def initialize(id:, organization_id:, name:, external_id: OMIT, phone: OMIT, employee_count: OMIT, annual_revenue: OMIT, tax_exempt_status: OMIT, creation_source: OMIT, creation_state: OMIT, website: OMIT, billing_address: OMIT, additional_properties: nil)
       @id = id
       @organization_id = organization_id
       @name = name
@@ -70,27 +68,13 @@ module Paid
       @website = website if website != OMIT
       @billing_address = billing_address if billing_address != OMIT
       @additional_properties = additional_properties
-      @_field_set = {
-        "id": id,
-        "organizationId": organization_id,
-        "name": name,
-        "externalId": external_id,
-        "phone": phone,
-        "employeeCount": employee_count,
-        "annualRevenue": annual_revenue,
-        "taxExemptStatus": tax_exempt_status,
-        "creationSource": creation_source,
-        "creationState": creation_state,
-        "website": website,
-        "billingAddress": billing_address
-      }.reject do |_k, v|
-        v == OMIT
-      end
+      @_field_set = { "id": id, "organizationId": organization_id, "name": name, "externalId": external_id, "phone": phone, "employeeCount": employee_count, "annualRevenue": annual_revenue, "taxExemptStatus": tax_exempt_status, "creationSource": creation_source, "creationState": creation_state, "website": website, "billingAddress": billing_address }.reject do | _k, v |
+  v == OMIT
+end
     end
-
-    # Deserialize a JSON object to an instance of Customer
+# Deserialize a JSON object to an instance of Customer
     #
-    # @param json_object [String]
+    # @param json_object [String] 
     # @return [Paid::Customer]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
@@ -106,11 +90,11 @@ module Paid
       creation_source = parsed_json["creationSource"]
       creation_state = parsed_json["creationState"]
       website = parsed_json["website"]
-      if parsed_json["billingAddress"].nil?
-        billing_address = nil
-      else
+      unless parsed_json["billingAddress"].nil?
         billing_address = parsed_json["billingAddress"].to_json
         billing_address = Paid::Address.from_json(json_object: billing_address)
+      else
+        billing_address = nil
       end
       new(
         id: id,
@@ -128,19 +112,17 @@ module Paid
         additional_properties: struct
       )
     end
-
-    # Serialize an instance of Customer to a JSON object
+# Serialize an instance of Customer to a JSON object
     #
     # @return [String]
-    def to_json(*_args)
+    def to_json
       @_field_set&.to_json
     end
-
-    # Leveraged for Union-type generation, validate_raw attempts to parse the given
-    #  hash and check each fields type against the current object's property
-    #  definitions.
+# Leveraged for Union-type generation, validate_raw attempts to parse the given
+#  hash and check each fields type against the current object's property
+#  definitions.
     #
-    # @param obj [Object]
+    # @param obj [Object] 
     # @return [Void]
     def self.validate_raw(obj:)
       obj.id.is_a?(String) != false || raise("Passed value for field obj.id is not the expected type, validation failed.")

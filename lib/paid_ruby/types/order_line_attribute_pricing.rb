@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require_relative "charge_type"
 require_relative "price_point"
 require_relative "pricing_model_type"
@@ -9,64 +8,56 @@ require "json"
 
 module Paid
   class OrderLineAttributePricing
-    # @return [String]
+  # @return [String] 
     attr_reader :event_name
-    # @return [Paid::ChargeType]
+  # @return [Paid::ChargeType] 
     attr_reader :charge_type
-    # @return [Paid::PricePoint]
+  # @return [Paid::PricePoint] 
     attr_reader :price_point
-    # @return [Paid::PricingModelType]
+  # @return [Paid::PricingModelType] 
     attr_reader :pricing_model
-    # @return [Paid::BillingFrequency]
+  # @return [Paid::BillingFrequency] 
     attr_reader :billing_frequency
-    # @return [OpenStruct] Additional properties unmapped to the current class definition
+  # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
-    # @return [Object]
+  # @return [Object] 
     attr_reader :_field_set
     protected :_field_set
 
     OMIT = Object.new
 
-    # @param event_name [String]
-    # @param charge_type [Paid::ChargeType]
-    # @param price_point [Paid::PricePoint]
-    # @param pricing_model [Paid::PricingModelType]
-    # @param billing_frequency [Paid::BillingFrequency]
+    # @param event_name [String] 
+    # @param charge_type [Paid::ChargeType] 
+    # @param price_point [Paid::PricePoint] 
+    # @param pricing_model [Paid::PricingModelType] 
+    # @param billing_frequency [Paid::BillingFrequency] 
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
     # @return [Paid::OrderLineAttributePricing]
-    def initialize(event_name: OMIT, charge_type: OMIT, price_point: OMIT, pricing_model: OMIT,
-                   billing_frequency: OMIT, additional_properties: nil)
+    def initialize(event_name: OMIT, charge_type: OMIT, price_point: OMIT, pricing_model: OMIT, billing_frequency: OMIT, additional_properties: nil)
       @event_name = event_name if event_name != OMIT
       @charge_type = charge_type if charge_type != OMIT
       @price_point = price_point if price_point != OMIT
       @pricing_model = pricing_model if pricing_model != OMIT
       @billing_frequency = billing_frequency if billing_frequency != OMIT
       @additional_properties = additional_properties
-      @_field_set = {
-        "eventName": event_name,
-        "chargeType": charge_type,
-        "pricePoint": price_point,
-        "pricingModel": pricing_model,
-        "billingFrequency": billing_frequency
-      }.reject do |_k, v|
-        v == OMIT
-      end
+      @_field_set = { "eventName": event_name, "chargeType": charge_type, "pricePoint": price_point, "pricingModel": pricing_model, "billingFrequency": billing_frequency }.reject do | _k, v |
+  v == OMIT
+end
     end
-
-    # Deserialize a JSON object to an instance of OrderLineAttributePricing
+# Deserialize a JSON object to an instance of OrderLineAttributePricing
     #
-    # @param json_object [String]
+    # @param json_object [String] 
     # @return [Paid::OrderLineAttributePricing]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)
       event_name = parsed_json["eventName"]
       charge_type = parsed_json["chargeType"]
-      if parsed_json["pricePoint"].nil?
-        price_point = nil
-      else
+      unless parsed_json["pricePoint"].nil?
         price_point = parsed_json["pricePoint"].to_json
         price_point = Paid::PricePoint.from_json(json_object: price_point)
+      else
+        price_point = nil
       end
       pricing_model = parsed_json["pricingModel"]
       billing_frequency = parsed_json["billingFrequency"]
@@ -79,19 +70,17 @@ module Paid
         additional_properties: struct
       )
     end
-
-    # Serialize an instance of OrderLineAttributePricing to a JSON object
+# Serialize an instance of OrderLineAttributePricing to a JSON object
     #
     # @return [String]
-    def to_json(*_args)
+    def to_json
       @_field_set&.to_json
     end
-
-    # Leveraged for Union-type generation, validate_raw attempts to parse the given
-    #  hash and check each fields type against the current object's property
-    #  definitions.
+# Leveraged for Union-type generation, validate_raw attempts to parse the given
+#  hash and check each fields type against the current object's property
+#  definitions.
     #
-    # @param obj [Object]
+    # @param obj [Object] 
     # @return [Void]
     def self.validate_raw(obj:)
       obj.event_name&.is_a?(String) != false || raise("Passed value for field obj.event_name is not the expected type, validation failed.")

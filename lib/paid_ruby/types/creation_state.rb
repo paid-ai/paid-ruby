@@ -2,7 +2,9 @@
 
 module Paid
   class CreationState
+
     ACTIVE = "active"
     DRAFT = "draft"
+
   end
 end

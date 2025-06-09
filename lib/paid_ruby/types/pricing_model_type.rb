@@ -2,8 +2,10 @@
 
 module Paid
   class PricingModelType
+
     PER_UNIT = "PerUnit"
     VOLUME_PRICING = "VolumePricing"
     GRADUATED_PRICING = "GraduatedPricing"
+
   end
 end

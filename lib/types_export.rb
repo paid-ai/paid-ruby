@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require_relative "paid_ruby/types/customer"
 require_relative "paid_ruby/types/tax_exempt_status"
 require_relative "paid_ruby/types/creation_source"

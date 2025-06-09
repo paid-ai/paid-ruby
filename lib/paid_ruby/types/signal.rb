@@ -1,30 +1,29 @@
 # frozen_string_literal: true
-
 require "ostruct"
 require "json"
 
 module Paid
   class Signal
-    # @return [String]
+  # @return [String] 
     attr_reader :event_name
-    # @return [String]
+  # @return [String] 
     attr_reader :agent_id
-    # @return [String]
+  # @return [String] 
     attr_reader :customer_id
-    # @return [Hash{String => Object}]
+  # @return [Hash{String => Object}] 
     attr_reader :data
-    # @return [OpenStruct] Additional properties unmapped to the current class definition
+  # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
-    # @return [Object]
+  # @return [Object] 
     attr_reader :_field_set
     protected :_field_set
 
     OMIT = Object.new
 
-    # @param event_name [String]
-    # @param agent_id [String]
-    # @param customer_id [String]
-    # @param data [Hash{String => Object}]
+    # @param event_name [String] 
+    # @param agent_id [String] 
+    # @param customer_id [String] 
+    # @param data [Hash{String => Object}] 
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
     # @return [Paid::Signal]
     def initialize(event_name: OMIT, agent_id: OMIT, customer_id: OMIT, data: OMIT, additional_properties: nil)
@@ -33,19 +32,13 @@ module Paid
       @customer_id = customer_id if customer_id != OMIT
       @data = data if data != OMIT
       @additional_properties = additional_properties
-      @_field_set = {
-        "event_name": event_name,
-        "agent_id": agent_id,
-        "customer_id": customer_id,
-        "data": data
-      }.reject do |_k, v|
-        v == OMIT
-      end
+      @_field_set = { "event_name": event_name, "agent_id": agent_id, "customer_id": customer_id, "data": data }.reject do | _k, v |
+  v == OMIT
+end
     end
-
-    # Deserialize a JSON object to an instance of Signal
+# Deserialize a JSON object to an instance of Signal
     #
-    # @param json_object [String]
+    # @param json_object [String] 
     # @return [Paid::Signal]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
@@ -62,19 +55,17 @@ module Paid
         additional_properties: struct
       )
     end
-
-    # Serialize an instance of Signal to a JSON object
+# Serialize an instance of Signal to a JSON object
     #
     # @return [String]
-    def to_json(*_args)
+    def to_json
       @_field_set&.to_json
     end
-
-    # Leveraged for Union-type generation, validate_raw attempts to parse the given
-    #  hash and check each fields type against the current object's property
-    #  definitions.
+# Leveraged for Union-type generation, validate_raw attempts to parse the given
+#  hash and check each fields type against the current object's property
+#  definitions.
     #
-    # @param obj [Object]
+    # @param obj [Object] 
     # @return [Void]
     def self.validate_raw(obj:)
       obj.event_name&.is_a?(String) != false || raise("Passed value for field obj.event_name is not the expected type, validation failed.")

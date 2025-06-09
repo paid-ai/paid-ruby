@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require_relative "creation_state"
 require_relative "agent"
 require_relative "order_line_attribute"
@@ -8,60 +7,59 @@ require "json"
 
 module Paid
   class OrderLine
-    # @return [String]
+  # @return [String] 
     attr_reader :id
-    # @return [String]
+  # @return [String] 
     attr_reader :order_id
-    # @return [String]
+  # @return [String] 
     attr_reader :agent_id
-    # @return [String]
+  # @return [String] 
     attr_reader :name
-    # @return [String]
+  # @return [String] 
     attr_reader :description
-    # @return [String]
+  # @return [String] 
     attr_reader :start_date
-    # @return [String]
+  # @return [String] 
     attr_reader :end_date
-    # @return [Float]
+  # @return [Float] 
     attr_reader :total_amount
-    # @return [Float]
+  # @return [Float] 
     attr_reader :billed_amount_without_tax
-    # @return [Float]
+  # @return [Float] 
     attr_reader :billed_tax
-    # @return [Float]
+  # @return [Float] 
     attr_reader :total_billed_amount
-    # @return [Paid::CreationState]
+  # @return [Paid::CreationState] 
     attr_reader :creation_state
-    # @return [Paid::Agent]
+  # @return [Paid::Agent] 
     attr_reader :agent
-    # @return [Array<Paid::OrderLineAttribute>]
+  # @return [Array<Paid::OrderLineAttribute>] 
     attr_reader :order_line_attributes
-    # @return [OpenStruct] Additional properties unmapped to the current class definition
+  # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
-    # @return [Object]
+  # @return [Object] 
     attr_reader :_field_set
     protected :_field_set
 
     OMIT = Object.new
 
-    # @param id [String]
-    # @param order_id [String]
-    # @param agent_id [String]
-    # @param name [String]
-    # @param description [String]
-    # @param start_date [String]
-    # @param end_date [String]
-    # @param total_amount [Float]
-    # @param billed_amount_without_tax [Float]
-    # @param billed_tax [Float]
-    # @param total_billed_amount [Float]
-    # @param creation_state [Paid::CreationState]
-    # @param agent [Paid::Agent]
-    # @param order_line_attributes [Array<Paid::OrderLineAttribute>]
+    # @param id [String] 
+    # @param order_id [String] 
+    # @param agent_id [String] 
+    # @param name [String] 
+    # @param description [String] 
+    # @param start_date [String] 
+    # @param end_date [String] 
+    # @param total_amount [Float] 
+    # @param billed_amount_without_tax [Float] 
+    # @param billed_tax [Float] 
+    # @param total_billed_amount [Float] 
+    # @param creation_state [Paid::CreationState] 
+    # @param agent [Paid::Agent] 
+    # @param order_line_attributes [Array<Paid::OrderLineAttribute>] 
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
     # @return [Paid::OrderLine]
-    def initialize(id: OMIT, order_id: OMIT, agent_id: OMIT, name: OMIT, description: OMIT, start_date: OMIT,
-                   end_date: OMIT, total_amount: OMIT, billed_amount_without_tax: OMIT, billed_tax: OMIT, total_billed_amount: OMIT, creation_state: OMIT, agent: OMIT, order_line_attributes: OMIT, additional_properties: nil)
+    def initialize(id: OMIT, order_id: OMIT, agent_id: OMIT, name: OMIT, description: OMIT, start_date: OMIT, end_date: OMIT, total_amount: OMIT, billed_amount_without_tax: OMIT, billed_tax: OMIT, total_billed_amount: OMIT, creation_state: OMIT, agent: OMIT, order_line_attributes: OMIT, additional_properties: nil)
       @id = id if id != OMIT
       @order_id = order_id if order_id != OMIT
       @agent_id = agent_id if agent_id != OMIT
@@ -77,29 +75,13 @@ module Paid
       @agent = agent if agent != OMIT
       @order_line_attributes = order_line_attributes if order_line_attributes != OMIT
       @additional_properties = additional_properties
-      @_field_set = {
-        "id": id,
-        "orderId": order_id,
-        "agentId": agent_id,
-        "name": name,
-        "description": description,
-        "startDate": start_date,
-        "endDate": end_date,
-        "totalAmount": total_amount,
-        "billedAmountWithoutTax": billed_amount_without_tax,
-        "billedTax": billed_tax,
-        "totalBilledAmount": total_billed_amount,
-        "creationState": creation_state,
-        "agent": agent,
-        "orderLineAttributes": order_line_attributes
-      }.reject do |_k, v|
-        v == OMIT
-      end
+      @_field_set = { "id": id, "orderId": order_id, "agentId": agent_id, "name": name, "description": description, "startDate": start_date, "endDate": end_date, "totalAmount": total_amount, "billedAmountWithoutTax": billed_amount_without_tax, "billedTax": billed_tax, "totalBilledAmount": total_billed_amount, "creationState": creation_state, "agent": agent, "orderLineAttributes": order_line_attributes }.reject do | _k, v |
+  v == OMIT
+end
     end
-
-    # Deserialize a JSON object to an instance of OrderLine
+# Deserialize a JSON object to an instance of OrderLine
     #
-    # @param json_object [String]
+    # @param json_object [String] 
     # @return [Paid::OrderLine]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
@@ -116,16 +98,16 @@ module Paid
       billed_tax = parsed_json["billedTax"]
       total_billed_amount = parsed_json["totalBilledAmount"]
       creation_state = parsed_json["creationState"]
-      if parsed_json["agent"].nil?
-        agent = nil
-      else
+      unless parsed_json["agent"].nil?
         agent = parsed_json["agent"].to_json
         agent = Paid::Agent.from_json(json_object: agent)
+      else
+        agent = nil
       end
-      order_line_attributes = parsed_json["orderLineAttributes"]&.map do |item|
-        item = item.to_json
-        Paid::OrderLineAttribute.from_json(json_object: item)
-      end
+      order_line_attributes = parsed_json["orderLineAttributes"]&.map do | item |
+  item = item.to_json
+  Paid::OrderLineAttribute.from_json(json_object: item)
+end
       new(
         id: id,
         order_id: order_id,
@@ -144,19 +126,17 @@ module Paid
         additional_properties: struct
       )
     end
-
-    # Serialize an instance of OrderLine to a JSON object
+# Serialize an instance of OrderLine to a JSON object
     #
     # @return [String]
-    def to_json(*_args)
+    def to_json
       @_field_set&.to_json
     end
-
-    # Leveraged for Union-type generation, validate_raw attempts to parse the given
-    #  hash and check each fields type against the current object's property
-    #  definitions.
+# Leveraged for Union-type generation, validate_raw attempts to parse the given
+#  hash and check each fields type against the current object's property
+#  definitions.
     #
-    # @param obj [Object]
+    # @param obj [Object] 
     # @return [Void]
     def self.validate_raw(obj:)
       obj.id&.is_a?(String) != false || raise("Passed value for field obj.id is not the expected type, validation failed.")

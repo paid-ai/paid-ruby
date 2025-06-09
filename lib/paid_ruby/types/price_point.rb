@@ -1,31 +1,30 @@
 # frozen_string_literal: true
-
 require_relative "tier"
 require "ostruct"
 require "json"
 
 module Paid
   class PricePoint
-    # @return [String]
+  # @return [String] 
     attr_reader :currency
-    # @return [Float]
+  # @return [Float] 
     attr_reader :unit_price
-    # @return [Float]
+  # @return [Float] 
     attr_reader :min_quantity
-    # @return [Array<Paid::Tier>]
+  # @return [Array<Paid::Tier>] 
     attr_reader :tiers
-    # @return [OpenStruct] Additional properties unmapped to the current class definition
+  # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
-    # @return [Object]
+  # @return [Object] 
     attr_reader :_field_set
     protected :_field_set
 
     OMIT = Object.new
 
-    # @param currency [String]
-    # @param unit_price [Float]
-    # @param min_quantity [Float]
-    # @param tiers [Array<Paid::Tier>]
+    # @param currency [String] 
+    # @param unit_price [Float] 
+    # @param min_quantity [Float] 
+    # @param tiers [Array<Paid::Tier>] 
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
     # @return [Paid::PricePoint]
     def initialize(currency: OMIT, unit_price: OMIT, min_quantity: OMIT, tiers: OMIT, additional_properties: nil)
@@ -34,19 +33,13 @@ module Paid
       @min_quantity = min_quantity if min_quantity != OMIT
       @tiers = tiers if tiers != OMIT
       @additional_properties = additional_properties
-      @_field_set = {
-        "currency": currency,
-        "unitPrice": unit_price,
-        "minQuantity": min_quantity,
-        "tiers": tiers
-      }.reject do |_k, v|
-        v == OMIT
-      end
+      @_field_set = { "currency": currency, "unitPrice": unit_price, "minQuantity": min_quantity, "tiers": tiers }.reject do | _k, v |
+  v == OMIT
+end
     end
-
-    # Deserialize a JSON object to an instance of PricePoint
+# Deserialize a JSON object to an instance of PricePoint
     #
-    # @param json_object [String]
+    # @param json_object [String] 
     # @return [Paid::PricePoint]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
@@ -54,10 +47,10 @@ module Paid
       currency = parsed_json["currency"]
       unit_price = parsed_json["unitPrice"]
       min_quantity = parsed_json["minQuantity"]
-      tiers = parsed_json["tiers"]&.map do |item|
-        item = item.to_json
-        Paid::Tier.from_json(json_object: item)
-      end
+      tiers = parsed_json["tiers"]&.map do | item |
+  item = item.to_json
+  Paid::Tier.from_json(json_object: item)
+end
       new(
         currency: currency,
         unit_price: unit_price,
@@ -66,19 +59,17 @@ module Paid
         additional_properties: struct
       )
     end
-
-    # Serialize an instance of PricePoint to a JSON object
+# Serialize an instance of PricePoint to a JSON object
     #
     # @return [String]
-    def to_json(*_args)
+    def to_json
       @_field_set&.to_json
     end
-
-    # Leveraged for Union-type generation, validate_raw attempts to parse the given
-    #  hash and check each fields type against the current object's property
-    #  definitions.
+# Leveraged for Union-type generation, validate_raw attempts to parse the given
+#  hash and check each fields type against the current object's property
+#  definitions.
     #
-    # @param obj [Object]
+    # @param obj [Object] 
     # @return [Void]
     def self.validate_raw(obj:)
       obj.currency&.is_a?(String) != false || raise("Passed value for field obj.currency is not the expected type, validation failed.")

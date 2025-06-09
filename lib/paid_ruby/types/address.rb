@@ -1,39 +1,38 @@
 # frozen_string_literal: true
-
 require "ostruct"
 require "json"
 
 module Paid
   class Address
-    # @return [String]
+  # @return [String] 
     attr_reader :line_1
-    # @return [String]
+  # @return [String] 
     attr_reader :line_2
-    # @return [String]
+  # @return [String] 
     attr_reader :city
-    # @return [String]
+  # @return [String] 
     attr_reader :state
-    # @return [String]
+  # @return [String] 
     attr_reader :zip_code
-    # @return [String]
+  # @return [String] 
     attr_reader :country
-    # @return [OpenStruct] Additional properties unmapped to the current class definition
+  # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
-    # @return [Object]
+  # @return [Object] 
     attr_reader :_field_set
     protected :_field_set
 
     OMIT = Object.new
 
-    # @param line_1 [String]
-    # @param line_2 [String]
-    # @param city [String]
-    # @param state [String]
-    # @param zip_code [String]
-    # @param country [String]
+    # @param line_1 [String] 
+    # @param line_2 [String] 
+    # @param city [String] 
+    # @param state [String] 
+    # @param zip_code [String] 
+    # @param country [String] 
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
     # @return [Paid::Address]
-    def initialize(line_1:, city:, state:, zip_code:, country:, line_2: OMIT, additional_properties: nil)
+    def initialize(line_1:, line_2: OMIT, city:, state:, zip_code:, country:, additional_properties: nil)
       @line_1 = line_1
       @line_2 = line_2 if line_2 != OMIT
       @city = city
@@ -41,21 +40,13 @@ module Paid
       @zip_code = zip_code
       @country = country
       @additional_properties = additional_properties
-      @_field_set = {
-        "line1": line_1,
-        "line2": line_2,
-        "city": city,
-        "state": state,
-        "zipCode": zip_code,
-        "country": country
-      }.reject do |_k, v|
-        v == OMIT
-      end
+      @_field_set = { "line1": line_1, "line2": line_2, "city": city, "state": state, "zipCode": zip_code, "country": country }.reject do | _k, v |
+  v == OMIT
+end
     end
-
-    # Deserialize a JSON object to an instance of Address
+# Deserialize a JSON object to an instance of Address
     #
-    # @param json_object [String]
+    # @param json_object [String] 
     # @return [Paid::Address]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
@@ -76,19 +67,17 @@ module Paid
         additional_properties: struct
       )
     end
-
-    # Serialize an instance of Address to a JSON object
+# Serialize an instance of Address to a JSON object
     #
     # @return [String]
-    def to_json(*_args)
+    def to_json
       @_field_set&.to_json
     end
-
-    # Leveraged for Union-type generation, validate_raw attempts to parse the given
-    #  hash and check each fields type against the current object's property
-    #  definitions.
+# Leveraged for Union-type generation, validate_raw attempts to parse the given
+#  hash and check each fields type against the current object's property
+#  definitions.
     #
-    # @param obj [Object]
+    # @param obj [Object] 
     # @return [Void]
     def self.validate_raw(obj:)
       obj.line_1.is_a?(String) != false || raise("Passed value for field obj.line_1 is not the expected type, validation failed.")

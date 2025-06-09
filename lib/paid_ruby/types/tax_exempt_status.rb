@@ -2,8 +2,10 @@
 
 module Paid
   class TaxExemptStatus
+
     NONE = "none"
     EXEMPT = "exempt"
     REVERSE = "reverse"
+
   end
 end

@@ -1,30 +1,29 @@
 # frozen_string_literal: true
-
 require "ostruct"
 require "json"
 
 module Paid
   class OrderLineCreate
-    # @return [String]
+  # @return [String] 
     attr_reader :agent_id
-    # @return [String]
+  # @return [String] 
     attr_reader :agent_external_id
-    # @return [String]
+  # @return [String] 
     attr_reader :name
-    # @return [String]
+  # @return [String] 
     attr_reader :description
-    # @return [OpenStruct] Additional properties unmapped to the current class definition
+  # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
-    # @return [Object]
+  # @return [Object] 
     attr_reader :_field_set
     protected :_field_set
 
     OMIT = Object.new
 
-    # @param agent_id [String]
-    # @param agent_external_id [String]
-    # @param name [String]
-    # @param description [String]
+    # @param agent_id [String] 
+    # @param agent_external_id [String] 
+    # @param name [String] 
+    # @param description [String] 
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
     # @return [Paid::OrderLineCreate]
     def initialize(agent_id: OMIT, agent_external_id: OMIT, name: OMIT, description: OMIT, additional_properties: nil)
@@ -33,19 +32,13 @@ module Paid
       @name = name if name != OMIT
       @description = description if description != OMIT
       @additional_properties = additional_properties
-      @_field_set = {
-        "agentId": agent_id,
-        "agentExternalId": agent_external_id,
-        "name": name,
-        "description": description
-      }.reject do |_k, v|
-        v == OMIT
-      end
+      @_field_set = { "agentId": agent_id, "agentExternalId": agent_external_id, "name": name, "description": description }.reject do | _k, v |
+  v == OMIT
+end
     end
-
-    # Deserialize a JSON object to an instance of OrderLineCreate
+# Deserialize a JSON object to an instance of OrderLineCreate
     #
-    # @param json_object [String]
+    # @param json_object [String] 
     # @return [Paid::OrderLineCreate]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
@@ -62,19 +55,17 @@ module Paid
         additional_properties: struct
       )
     end
-
-    # Serialize an instance of OrderLineCreate to a JSON object
+# Serialize an instance of OrderLineCreate to a JSON object
     #
     # @return [String]
-    def to_json(*_args)
+    def to_json
       @_field_set&.to_json
     end
-
-    # Leveraged for Union-type generation, validate_raw attempts to parse the given
-    #  hash and check each fields type against the current object's property
-    #  definitions.
+# Leveraged for Union-type generation, validate_raw attempts to parse the given
+#  hash and check each fields type against the current object's property
+#  definitions.
     #
-    # @param obj [Object]
+    # @param obj [Object] 
     # @return [Void]
     def self.validate_raw(obj:)
       obj.agent_id&.is_a?(String) != false || raise("Passed value for field obj.agent_id is not the expected type, validation failed.")

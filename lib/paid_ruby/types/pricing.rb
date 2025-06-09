@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require_relative "charge_type"
 require_relative "pricing_model_type"
 require_relative "billing_frequency"
@@ -8,36 +7,35 @@ require "json"
 
 module Paid
   class Pricing
-    # @return [String]
+  # @return [String] 
     attr_reader :event_name
-    # @return [Boolean]
+  # @return [Boolean] 
     attr_reader :taxable
-    # @return [Paid::ChargeType]
+  # @return [Paid::ChargeType] 
     attr_reader :charge_type
-    # @return [Paid::PricingModelType]
+  # @return [Paid::PricingModelType] 
     attr_reader :pricing_model
-    # @return [Paid::BillingFrequency]
+  # @return [Paid::BillingFrequency] 
     attr_reader :billing_frequency
-    # @return [Hash{String => Paid::AgentPricePoint}]
+  # @return [Hash{String => Paid::AgentPricePoint}] 
     attr_reader :price_points
-    # @return [OpenStruct] Additional properties unmapped to the current class definition
+  # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
-    # @return [Object]
+  # @return [Object] 
     attr_reader :_field_set
     protected :_field_set
 
     OMIT = Object.new
 
-    # @param event_name [String]
-    # @param taxable [Boolean]
-    # @param charge_type [Paid::ChargeType]
-    # @param pricing_model [Paid::PricingModelType]
-    # @param billing_frequency [Paid::BillingFrequency]
-    # @param price_points [Hash{String => Paid::AgentPricePoint}]
+    # @param event_name [String] 
+    # @param taxable [Boolean] 
+    # @param charge_type [Paid::ChargeType] 
+    # @param pricing_model [Paid::PricingModelType] 
+    # @param billing_frequency [Paid::BillingFrequency] 
+    # @param price_points [Hash{String => Paid::AgentPricePoint}] 
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
     # @return [Paid::Pricing]
-    def initialize(taxable:, charge_type:, pricing_model:, billing_frequency:, price_points:, event_name: OMIT,
-                   additional_properties: nil)
+    def initialize(event_name: OMIT, taxable:, charge_type:, pricing_model:, billing_frequency:, price_points:, additional_properties: nil)
       @event_name = event_name if event_name != OMIT
       @taxable = taxable
       @charge_type = charge_type
@@ -45,21 +43,13 @@ module Paid
       @billing_frequency = billing_frequency
       @price_points = price_points
       @additional_properties = additional_properties
-      @_field_set = {
-        "eventName": event_name,
-        "taxable": taxable,
-        "chargeType": charge_type,
-        "pricingModel": pricing_model,
-        "billingFrequency": billing_frequency,
-        "pricePoints": price_points
-      }.reject do |_k, v|
-        v == OMIT
-      end
+      @_field_set = { "eventName": event_name, "taxable": taxable, "chargeType": charge_type, "pricingModel": pricing_model, "billingFrequency": billing_frequency, "pricePoints": price_points }.reject do | _k, v |
+  v == OMIT
+end
     end
-
-    # Deserialize a JSON object to an instance of Pricing
+# Deserialize a JSON object to an instance of Pricing
     #
-    # @param json_object [String]
+    # @param json_object [String] 
     # @return [Paid::Pricing]
     def self.from_json(json_object:)
       struct = JSON.parse(json_object, object_class: OpenStruct)
@@ -69,10 +59,10 @@ module Paid
       charge_type = parsed_json["chargeType"]
       pricing_model = parsed_json["pricingModel"]
       billing_frequency = parsed_json["billingFrequency"]
-      price_points = parsed_json["pricePoints"]&.transform_values do |value|
-        value = value.to_json
-        Paid::AgentPricePoint.from_json(json_object: value)
-      end
+      price_points = parsed_json["pricePoints"]&.transform_values do | value |
+  value = value.to_json
+  Paid::AgentPricePoint.from_json(json_object: value)
+end
       new(
         event_name: event_name,
         taxable: taxable,
@@ -83,19 +73,17 @@ module Paid
         additional_properties: struct
       )
     end
-
-    # Serialize an instance of Pricing to a JSON object
+# Serialize an instance of Pricing to a JSON object
     #
     # @return [String]
-    def to_json(*_args)
+    def to_json
       @_field_set&.to_json
     end
-
-    # Leveraged for Union-type generation, validate_raw attempts to parse the given
-    #  hash and check each fields type against the current object's property
-    #  definitions.
+# Leveraged for Union-type generation, validate_raw attempts to parse the given
+#  hash and check each fields type against the current object's property
+#  definitions.
     #
-    # @param obj [Object]
+    # @param obj [Object] 
     # @return [Void]
     def self.validate_raw(obj:)
       obj.event_name&.is_a?(String) != false || raise("Passed value for field obj.event_name is not the expected type, validation failed.")
