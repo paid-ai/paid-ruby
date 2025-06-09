@@ -59,7 +59,9 @@ end
     end
     # @param customer_id [String] 
     # @param customer_external_id [String] 
+    # @param billing_contact_id [String] 
     # @param name [String] 
+    # @param description [String] 
     # @param start_date [String] 
     # @param end_date [String] 
     # @param currency [String] 
@@ -76,8 +78,14 @@ end
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.orders.create(name: "name")
-    def create(customer_id: nil, customer_external_id: nil, name:, start_date: nil, end_date: nil, currency: nil, order_lines: nil, request_options: nil)
+#  api.orders.create(
+#    customer_id: "customerId",
+#    billing_contact_id: "billingContactId",
+#    name: "name",
+#    start_date: "startDate",
+#    currency: "currency"
+#  )
+    def create(customer_id:, customer_external_id: nil, billing_contact_id:, name:, description: nil, start_date:, end_date: nil, currency:, order_lines: nil, request_options: nil)
       response = @request_client.conn.post do | req |
   unless request_options&.timeout_in_seconds.nil?
     req.options.timeout = request_options.timeout_in_seconds
@@ -89,7 +97,7 @@ end
   unless request_options.nil? || request_options&.additional_query_parameters.nil?
     req.params = { **(request_options&.additional_query_parameters || {}) }.compact
   end
-  req.body = { **(request_options&.additional_body_parameters || {}), customerId: customer_id, customerExternalId: customer_external_id, name: name, startDate: start_date, endDate: end_date, currency: currency, orderLines: order_lines }.compact
+  req.body = { **(request_options&.additional_body_parameters || {}), customerId: customer_id, customerExternalId: customer_external_id, billingContactId: billing_contact_id, name: name, description: description, startDate: start_date, endDate: end_date, currency: currency, orderLines: order_lines }.compact
   req.url "#{@request_client.get_url(request_options: request_options)}/orders"
 end
       Paid::Order.from_json(json_object: response.body)
@@ -230,7 +238,9 @@ end
     end
     # @param customer_id [String] 
     # @param customer_external_id [String] 
+    # @param billing_contact_id [String] 
     # @param name [String] 
+    # @param description [String] 
     # @param start_date [String] 
     # @param end_date [String] 
     # @param currency [String] 
@@ -247,8 +257,14 @@ end
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.orders.create(name: "name")
-    def create(customer_id: nil, customer_external_id: nil, name:, start_date: nil, end_date: nil, currency: nil, order_lines: nil, request_options: nil)
+#  api.orders.create(
+#    customer_id: "customerId",
+#    billing_contact_id: "billingContactId",
+#    name: "name",
+#    start_date: "startDate",
+#    currency: "currency"
+#  )
+    def create(customer_id:, customer_external_id: nil, billing_contact_id:, name:, description: nil, start_date:, end_date: nil, currency:, order_lines: nil, request_options: nil)
       Async do
         response = @request_client.conn.post do | req |
   unless request_options&.timeout_in_seconds.nil?
@@ -261,7 +277,7 @@ end
   unless request_options.nil? || request_options&.additional_query_parameters.nil?
     req.params = { **(request_options&.additional_query_parameters || {}) }.compact
   end
-  req.body = { **(request_options&.additional_body_parameters || {}), customerId: customer_id, customerExternalId: customer_external_id, name: name, startDate: start_date, endDate: end_date, currency: currency, orderLines: order_lines }.compact
+  req.body = { **(request_options&.additional_body_parameters || {}), customerId: customer_id, customerExternalId: customer_external_id, billingContactId: billing_contact_id, name: name, description: description, startDate: start_date, endDate: end_date, currency: currency, orderLines: order_lines }.compact
   req.url "#{@request_client.get_url(request_options: request_options)}/orders"
 end
         Paid::Order.from_json(json_object: response.body)

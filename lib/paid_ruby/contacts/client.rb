@@ -66,7 +66,7 @@ end
     # @param billing_city [String] 
     # @param billing_state_province [String] 
     # @param billing_country [String] 
-    # @param billing_zip_postal_code [String] 
+    # @param billing_postal_code [String] 
     # @param request_options [Paid::RequestOptions] 
     # @return [Paid::Contact]
     # @example
@@ -83,9 +83,9 @@ end
 #    billing_street: "billingStreet",
 #    billing_city: "billingCity",
 #    billing_country: "billingCountry",
-#    billing_zip_postal_code: "billingZipPostalCode"
+#    billing_postal_code: "billingPostalCode"
 #  )
-    def create(external_id: nil, customer_id: nil, customer_external_id: nil, salutation:, first_name:, last_name:, email:, phone: nil, billing_street:, billing_city:, billing_state_province: nil, billing_country:, billing_zip_postal_code:, request_options: nil)
+    def create(external_id: nil, customer_id: nil, customer_external_id: nil, salutation:, first_name:, last_name:, email:, phone: nil, billing_street:, billing_city:, billing_state_province: nil, billing_country:, billing_postal_code:, request_options: nil)
       response = @request_client.conn.post do | req |
   unless request_options&.timeout_in_seconds.nil?
     req.options.timeout = request_options.timeout_in_seconds
@@ -97,7 +97,7 @@ end
   unless request_options.nil? || request_options&.additional_query_parameters.nil?
     req.params = { **(request_options&.additional_query_parameters || {}) }.compact
   end
-  req.body = { **(request_options&.additional_body_parameters || {}), externalId: external_id, customerId: customer_id, customerExternalId: customer_external_id, salutation: salutation, firstName: first_name, lastName: last_name, email: email, phone: phone, billingStreet: billing_street, billingCity: billing_city, billingStateProvince: billing_state_province, billingCountry: billing_country, billingZipPostalCode: billing_zip_postal_code }.compact
+  req.body = { **(request_options&.additional_body_parameters || {}), externalId: external_id, customerId: customer_id, customerExternalId: customer_external_id, salutation: salutation, firstName: first_name, lastName: last_name, email: email, phone: phone, billingStreet: billing_street, billingCity: billing_city, billingStateProvince: billing_state_province, billingCountry: billing_country, billingPostalCode: billing_postal_code }.compact
   req.url "#{@request_client.get_url(request_options: request_options)}/contacts"
 end
       Paid::Contact.from_json(json_object: response.body)
@@ -273,7 +273,7 @@ end
     # @param billing_city [String] 
     # @param billing_state_province [String] 
     # @param billing_country [String] 
-    # @param billing_zip_postal_code [String] 
+    # @param billing_postal_code [String] 
     # @param request_options [Paid::RequestOptions] 
     # @return [Paid::Contact]
     # @example
@@ -290,9 +290,9 @@ end
 #    billing_street: "billingStreet",
 #    billing_city: "billingCity",
 #    billing_country: "billingCountry",
-#    billing_zip_postal_code: "billingZipPostalCode"
+#    billing_postal_code: "billingPostalCode"
 #  )
-    def create(external_id: nil, customer_id: nil, customer_external_id: nil, salutation:, first_name:, last_name:, email:, phone: nil, billing_street:, billing_city:, billing_state_province: nil, billing_country:, billing_zip_postal_code:, request_options: nil)
+    def create(external_id: nil, customer_id: nil, customer_external_id: nil, salutation:, first_name:, last_name:, email:, phone: nil, billing_street:, billing_city:, billing_state_province: nil, billing_country:, billing_postal_code:, request_options: nil)
       Async do
         response = @request_client.conn.post do | req |
   unless request_options&.timeout_in_seconds.nil?
@@ -305,7 +305,7 @@ end
   unless request_options.nil? || request_options&.additional_query_parameters.nil?
     req.params = { **(request_options&.additional_query_parameters || {}) }.compact
   end
-  req.body = { **(request_options&.additional_body_parameters || {}), externalId: external_id, customerId: customer_id, customerExternalId: customer_external_id, salutation: salutation, firstName: first_name, lastName: last_name, email: email, phone: phone, billingStreet: billing_street, billingCity: billing_city, billingStateProvince: billing_state_province, billingCountry: billing_country, billingZipPostalCode: billing_zip_postal_code }.compact
+  req.body = { **(request_options&.additional_body_parameters || {}), externalId: external_id, customerId: customer_id, customerExternalId: customer_external_id, salutation: salutation, firstName: first_name, lastName: last_name, email: email, phone: phone, billingStreet: billing_street, billingCity: billing_city, billingStateProvince: billing_state_province, billingCountry: billing_country, billingPostalCode: billing_postal_code }.compact
   req.url "#{@request_client.get_url(request_options: request_options)}/contacts"
 end
         Paid::Contact.from_json(json_object: response.body)

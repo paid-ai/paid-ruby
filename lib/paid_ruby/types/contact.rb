@@ -34,7 +34,7 @@ module Paid
   # @return [String] 
     attr_reader :billing_country
   # @return [String] 
-    attr_reader :billing_zip_postal_code
+    attr_reader :billing_postal_code
   # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
   # @return [Object] 
@@ -57,10 +57,10 @@ module Paid
     # @param billing_city [String] 
     # @param billing_state_province [String] 
     # @param billing_country [String] 
-    # @param billing_zip_postal_code [String] 
+    # @param billing_postal_code [String] 
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
     # @return [Paid::Contact]
-    def initialize(id: OMIT, external_id: OMIT, organization_id: OMIT, customer_id: OMIT, customer_external_id: OMIT, salutation: OMIT, first_name: OMIT, last_name: OMIT, email: OMIT, phone: OMIT, billing_street: OMIT, billing_city: OMIT, billing_state_province: OMIT, billing_country: OMIT, billing_zip_postal_code: OMIT, additional_properties: nil)
+    def initialize(id: OMIT, external_id: OMIT, organization_id: OMIT, customer_id: OMIT, customer_external_id: OMIT, salutation: OMIT, first_name: OMIT, last_name: OMIT, email: OMIT, phone: OMIT, billing_street: OMIT, billing_city: OMIT, billing_state_province: OMIT, billing_country: OMIT, billing_postal_code: OMIT, additional_properties: nil)
       @id = id if id != OMIT
       @external_id = external_id if external_id != OMIT
       @organization_id = organization_id if organization_id != OMIT
@@ -75,9 +75,9 @@ module Paid
       @billing_city = billing_city if billing_city != OMIT
       @billing_state_province = billing_state_province if billing_state_province != OMIT
       @billing_country = billing_country if billing_country != OMIT
-      @billing_zip_postal_code = billing_zip_postal_code if billing_zip_postal_code != OMIT
+      @billing_postal_code = billing_postal_code if billing_postal_code != OMIT
       @additional_properties = additional_properties
-      @_field_set = { "id": id, "externalId": external_id, "organizationId": organization_id, "customerId": customer_id, "customerExternalId": customer_external_id, "salutation": salutation, "firstName": first_name, "lastName": last_name, "email": email, "phone": phone, "billingStreet": billing_street, "billingCity": billing_city, "billingStateProvince": billing_state_province, "billingCountry": billing_country, "billingZipPostalCode": billing_zip_postal_code }.reject do | _k, v |
+      @_field_set = { "id": id, "externalId": external_id, "organizationId": organization_id, "customerId": customer_id, "customerExternalId": customer_external_id, "salutation": salutation, "firstName": first_name, "lastName": last_name, "email": email, "phone": phone, "billingStreet": billing_street, "billingCity": billing_city, "billingStateProvince": billing_state_province, "billingCountry": billing_country, "billingPostalCode": billing_postal_code }.reject do | _k, v |
   v == OMIT
 end
     end
@@ -102,7 +102,7 @@ end
       billing_city = parsed_json["billingCity"]
       billing_state_province = parsed_json["billingStateProvince"]
       billing_country = parsed_json["billingCountry"]
-      billing_zip_postal_code = parsed_json["billingZipPostalCode"]
+      billing_postal_code = parsed_json["billingPostalCode"]
       new(
         id: id,
         external_id: external_id,
@@ -118,7 +118,7 @@ end
         billing_city: billing_city,
         billing_state_province: billing_state_province,
         billing_country: billing_country,
-        billing_zip_postal_code: billing_zip_postal_code,
+        billing_postal_code: billing_postal_code,
         additional_properties: struct
       )
     end
@@ -149,7 +149,7 @@ end
       obj.billing_city&.is_a?(String) != false || raise("Passed value for field obj.billing_city is not the expected type, validation failed.")
       obj.billing_state_province&.is_a?(String) != false || raise("Passed value for field obj.billing_state_province is not the expected type, validation failed.")
       obj.billing_country&.is_a?(String) != false || raise("Passed value for field obj.billing_country is not the expected type, validation failed.")
-      obj.billing_zip_postal_code&.is_a?(String) != false || raise("Passed value for field obj.billing_zip_postal_code is not the expected type, validation failed.")
+      obj.billing_postal_code&.is_a?(String) != false || raise("Passed value for field obj.billing_postal_code is not the expected type, validation failed.")
     end
   end
 end
