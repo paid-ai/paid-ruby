@@ -6,8 +6,8 @@ module Paid
     EMAIL = ""
     SUMMARY = ""
     DESCRIPTION = ""
-    HOMEPAGE = "https://github.com/AgentPaid/paid-ruby"
-    SOURCE_CODE_URI = "https://github.com/AgentPaid/paid-ruby"
-    CHANGELOG_URI = "https://github.com/AgentPaid/paid-ruby/blob/master/CHANGELOG.md"
+    HOMEPAGE = "https://github.com/paid-ai/paid-ruby"
+    SOURCE_CODE_URI = "https://github.com/paid-ai/paid-ruby"
+    CHANGELOG_URI = "https://github.com/paid-ai/paid-ruby/blob/master/CHANGELOG.md"
   end
 end

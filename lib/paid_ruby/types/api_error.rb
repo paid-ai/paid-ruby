@@ -7,6 +7,10 @@ module Paid
   class ApiError
   # @return [String] A human-readable message providing more details about the error.
     attr_reader :message
+  # @return [String] 
+    attr_reader :code
+  # @return [String] 
+    attr_reader :details
   # @return [OpenStruct] Additional properties unmapped to the current class definition
     attr_reader :additional_properties
   # @return [Object] 
@@ -16,12 +20,16 @@ module Paid
     OMIT = Object.new
 
     # @param message [String] A human-readable message providing more details about the error.
+    # @param code [String] 
+    # @param details [String] 
     # @param additional_properties [OpenStruct] Additional properties unmapped to the current class definition
     # @return [Paid::ApiError]
-    def initialize(message: OMIT, additional_properties: nil)
+    def initialize(message: OMIT, code: OMIT, details: OMIT, additional_properties: nil)
       @message = message if message != OMIT
+      @code = code if code != OMIT
+      @details = details if details != OMIT
       @additional_properties = additional_properties
-      @_field_set = { "message": message }.reject do | _k, v |
+      @_field_set = { "message": message, "code": code, "details": details }.reject do | _k, v |
   v == OMIT
 end
     end
@@ -33,7 +41,14 @@ end
       struct = JSON.parse(json_object, object_class: OpenStruct)
       parsed_json = JSON.parse(json_object)
       message = parsed_json["message"]
-      new(message: message, additional_properties: struct)
+      code = parsed_json["code"]
+      details = parsed_json["details"]
+      new(
+        message: message,
+        code: code,
+        details: details,
+        additional_properties: struct
+      )
     end
 # Serialize an instance of ApiError to a JSON object
     #
@@ -49,6 +64,8 @@ end
     # @return [Void]
     def self.validate_raw(obj:)
       obj.message&.is_a?(String) != false || raise("Passed value for field obj.message is not the expected type, validation failed.")
+      obj.code&.is_a?(String) != false || raise("Passed value for field obj.code is not the expected type, validation failed.")
+      obj.details&.is_a?(String) != false || raise("Passed value for field obj.details is not the expected type, validation failed.")
     end
   end
 end
