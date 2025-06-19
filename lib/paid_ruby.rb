@@ -9,6 +9,8 @@ require_relative "paid_ruby/contacts/client"
 require_relative "paid_ruby/orders/client"
 require_relative "paid_ruby/usage/client"
 require_relative "extensions/batch"
+require_relative "paid_ruby/tracing/tracing"
+require_relative "paid_ruby/tracing/wrappers/open_ai_wrapper"
 
 module Paid
   class Client
@@ -44,6 +46,19 @@ module Paid
       @orders = Paid::OrdersClient.new(request_client: @request_client)
       @usage = Paid::BatchUsageClient.new(request_client: @request_client)
     end
+
+    def initialize_tracing
+      token = @request_client.token
+      api_key = token.gsub(/^Bearer /, "")
+      Paid::Tracing.initialize_tracing(api_key: api_key)
+    end
+
+    # @param external_customer_id [String]
+    # @param args [Array]
+    # @param block [Proc]
+    def capture(*args, external_customer_id:, &block)
+      Paid::Tracing.capture(*args, external_customer_id: external_customer_id, &block)
+    end
   end
 
   class AsyncClient
@@ -78,6 +93,19 @@ module Paid
       @contacts = Paid::AsyncContactsClient.new(request_client: @async_request_client)
       @orders = Paid::AsyncOrdersClient.new(request_client: @async_request_client)
       @usage = Paid::AsyncBatchUsageClient.new(request_client: @async_request_client)
+    end
+
+    def initialize_tracing
+      token = @async_request_client.token
+      api_key = token.gsub(/^Bearer /, "")
+      Paid::Tracing.initialize_tracing(api_key: api_key)
+    end
+
+    # @param external_customer_id [String]
+    # @param args [Array]
+    # @param block [Proc]
+    def capture(*args, external_customer_id:, &block)
+      Paid::Tracing.capture(*args, external_customer_id: external_customer_id, &block)
     end
   end
 end
