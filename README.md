@@ -88,6 +88,91 @@ rescue Paid::Error => e
 end
 ```
 
+## Logging
+
+Supported log levels are `DEBUG`, `INFO`, `WARN`, `ERROR`, and `FATAL`.
+
+For example, to set the log level to debug, you can set the environment variable:
+```bash
+export PAID_LOG_LEVEL=DEBUG
+```
+Falls back to `FATAL`, which effectively disables logging.
+
+## Cost Tracking
+
+It's possible to track usage costs by using Paid wrappers around you AI provider API.
+As of now, the following OpenAI python APIs are supported:
+```
+chat()
+embeddings()
+images.generate()
+```
+
+Example usage:
+
+```ruby
+require 'paid_ruby'
+require 'openai'
+
+# 1. Initialize the Paid client and tracing
+# Replace with your actual Paid API token
+paid_client = Paid::Client.new(token: "<your_paid_api_key>")
+
+# 2. initialize cost tracking
+paid_client.initialize_tracing
+
+# 3. Initialize the standard OpenAI client
+openai_client = OpenAI::Client.new(
+    access_token: "<your_openai_api_key>"
+)
+
+# 4. Instantiate the wrapper using its full module path
+paid_openai_client = Paid::Tracing::Wrappers::PaidOpenAI.new(openai_client: openai_client)
+
+def create_image(client)
+  image_response = client.images.generate(
+    parameters: {
+      prompt: "A cute baby sea otter programming in Ruby",
+      size: "256x256"
+    }
+  )
+end
+
+paid_client.capture(external_customer_id: "<your_external_customer_id>") do
+  create_image(paid_openai_client)
+end
+```
+
+## Manual cost tracking
+
+Manual cost tracking allow to insert your own costs to the usage data and
+cost traces will be created based on that info.
+
+```ruby
+require 'paid_ruby'
+
+client = Paid::Client.new(token: "<your_paid_api_key>")
+
+client.usage.record_usage(
+  signal: {
+    event_name: "<your_signal_name>",
+    agent_id: "<your_agent_id>",
+    customer_id: "<your_customer_id>",
+    data: {
+        "costData": {
+            "vendor": "<vendor_name>", # can be anything
+            "cost": {
+                "amount": 0.003,
+                "currency": "USD"
+            }
+        }
+    }
+  }
+)
+
+client.usage.flush
+```
+
 ## Contributing
 
 While we value open-source contributions to this SDK, this library is generated programmatically.

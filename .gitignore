@@ -8,3 +8,5 @@
 /tmp/
 *.gem
 .env
+/vendor/
+Gemfile.lock
