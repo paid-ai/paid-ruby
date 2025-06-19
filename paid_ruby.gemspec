@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.summary = Paid::Gemconfig::SUMMARY
   spec.description = Paid::Gemconfig::DESCRIPTION
   spec.homepage = Paid::Gemconfig::HOMEPAGE
-  spec.required_ruby_version = ">= 2.7.0"
+  spec.required_ruby_version = ">= 3.1.0"
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = Paid::Gemconfig::SOURCE_CODE_URI
   spec.metadata["changelog_uri"] = Paid::Gemconfig::CHANGELOG_URI
