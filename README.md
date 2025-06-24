@@ -101,7 +101,7 @@ Falls back to `FATAL`, which effectively disables logging.
 ## Cost Tracking
 
 It's possible to track usage costs by using Paid wrappers around you AI provider API.
-As of now, the following OpenAI python APIs are supported:
+As of now, the following OpenAI APIs are supported:
 ```
 chat()
 embeddings()
