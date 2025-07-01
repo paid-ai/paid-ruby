@@ -4,6 +4,3 @@ README.md
 lib/paid_ruby.rb
 lib/extensions/batch.rb
 lib/paid_ruby/tracing/
-
-Gemfile
-paid_ruby.gemspec
