@@ -11,13 +11,13 @@ require_relative "lib/gemconfig"
 
 Gem::Specification.new do | spec |
   spec.name = "paid_ruby"
-  spec.version = "0.1.1-rc7"
+  spec.version = "0.1.1-rc8"
   spec.authors = Paid::Gemconfig::AUTHORS
   spec.email = Paid::Gemconfig::EMAIL
   spec.summary = Paid::Gemconfig::SUMMARY
   spec.description = Paid::Gemconfig::DESCRIPTION
   spec.homepage = Paid::Gemconfig::HOMEPAGE
-  spec.required_ruby_version = Paid::Gemconfig::RUBY_VERSION
+  spec.required_ruby_version = ">= 2.7.0"
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = Paid::Gemconfig::SOURCE_CODE_URI
   spec.metadata["changelog_uri"] = Paid::Gemconfig::CHANGELOG_URI
