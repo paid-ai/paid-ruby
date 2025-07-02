@@ -6,5 +6,6 @@ lib/extensions/batch.rb
 lib/paid_ruby/tracing/
 
 lib/gemconfig.rb
+.github/workflows/publish.yml
 
 .ruby-version
