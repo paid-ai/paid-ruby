@@ -136,7 +136,7 @@ end
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.agents.update(agent_id: "agentId", request: { name: "Acme Agent (Updated)", agent_attributes: [{ name: "Emails sent signal", active: true, pricing: { event_name: "emails_sent", taxable: true, charge_type: USAGE, pricing_model: VOLUME_PRICING, billing_frequency: MONTHLY, price_points: { "USD": { tiers: [{ min_quantity: 0, max_quantity: 10, unit_price: 100 }, { min_quantity: 11, max_quantity: 100, unit_price: 90 }, { min_quantity: 101, unit_price: 80 }] } } } }] })
+#  api.agents.update(agent_id: "agentId", request: { name: "Acme Agent (Updated)", agent_attributes: [{ name: "Emails sent signal", active: true, pricing: { event_name: "emails_sent", taxable: true, charge_type: USAGE, pricing_model: PER_UNIT, billing_frequency: MONTHLY, price_points: { "USD": { tiers: [{ min_quantity: 0, max_quantity: 10, unit_price: 100 }, { min_quantity: 11, max_quantity: 100, unit_price: 90 }, { min_quantity: 101, unit_price: 80 }] } } } }] })
     def update(agent_id:, request:, request_options: nil)
       response = @request_client.conn.put do | req |
   unless request_options&.timeout_in_seconds.nil?
@@ -402,7 +402,7 @@ end
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.agents.update(agent_id: "agentId", request: { name: "Acme Agent (Updated)", agent_attributes: [{ name: "Emails sent signal", active: true, pricing: { event_name: "emails_sent", taxable: true, charge_type: USAGE, pricing_model: VOLUME_PRICING, billing_frequency: MONTHLY, price_points: { "USD": { tiers: [{ min_quantity: 0, max_quantity: 10, unit_price: 100 }, { min_quantity: 11, max_quantity: 100, unit_price: 90 }, { min_quantity: 101, unit_price: 80 }] } } } }] })
+#  api.agents.update(agent_id: "agentId", request: { name: "Acme Agent (Updated)", agent_attributes: [{ name: "Emails sent signal", active: true, pricing: { event_name: "emails_sent", taxable: true, charge_type: USAGE, pricing_model: PER_UNIT, billing_frequency: MONTHLY, price_points: { "USD": { tiers: [{ min_quantity: 0, max_quantity: 10, unit_price: 100 }, { min_quantity: 11, max_quantity: 100, unit_price: 90 }, { min_quantity: 101, unit_price: 80 }] } } } }] })
     def update(agent_id:, request:, request_options: nil)
       Async do
         response = @request_client.conn.put do | req |
