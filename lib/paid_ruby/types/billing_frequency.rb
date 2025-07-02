@@ -3,9 +3,9 @@
 module Paid
   class BillingFrequency
 
-    MONTHLY = "Monthly"
-    QUARTERLY = "Quarterly"
-    ANNUAL = "Annual"
+    MONTHLY = "monthly"
+    QUARTERLY = "quarterly"
+    ANNUAL = "annual"
 
   end
 end

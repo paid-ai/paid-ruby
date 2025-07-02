@@ -19,6 +19,7 @@ module Paid
     # @param signals [Array<Hash>] Request of type Array<Paid::Signal>, as a Hash
     #   * :event_name (String) 
     #   * :agent_id (String) 
+    #   * :external_agent_id (String) 
     #   * :customer_id (String) 
     #   * :data (Hash{String => Object}) 
     # @param request_options [Paid::RequestOptions] 
@@ -29,7 +30,7 @@ module Paid
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.usage.record_bulk
+#  api.usage.record_bulk(signals: [{  }, {  }, {  }])
     def record_bulk(signals: nil, request_options: nil)
       response = @request_client.conn.post do | req |
   unless request_options&.timeout_in_seconds.nil?
@@ -62,6 +63,7 @@ end
     # @param signals [Array<Hash>] Request of type Array<Paid::Signal>, as a Hash
     #   * :event_name (String) 
     #   * :agent_id (String) 
+    #   * :external_agent_id (String) 
     #   * :customer_id (String) 
     #   * :data (Hash{String => Object}) 
     # @param request_options [Paid::RequestOptions] 
@@ -72,7 +74,7 @@ end
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.usage.record_bulk
+#  api.usage.record_bulk(signals: [{  }, {  }, {  }])
     def record_bulk(signals: nil, request_options: nil)
       Async do
         response = @request_client.conn.post do | req |

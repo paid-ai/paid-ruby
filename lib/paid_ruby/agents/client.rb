@@ -60,6 +60,7 @@ end
     # @param description [String] 
     # @param agent_code [String] 
     # @param external_id [String] 
+    # @param active [Boolean] 
     # @param request_options [Paid::RequestOptions] 
     # @return [Paid::Agent]
     # @example
@@ -68,8 +69,12 @@ end
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.agents.create(name: "name", description: "description")
-    def create(name:, description:, agent_code: nil, external_id: nil, request_options: nil)
+#  api.agents.create(
+#    name: "Acme Agent",
+#    description: "Acme Agent is an AI agent that does things.",
+#    external_id: "acme-agent"
+#  )
+    def create(name:, description:, agent_code: nil, external_id: nil, active: nil, request_options: nil)
       response = @request_client.conn.post do | req |
   unless request_options&.timeout_in_seconds.nil?
     req.options.timeout = request_options.timeout_in_seconds
@@ -81,7 +86,7 @@ end
   unless request_options.nil? || request_options&.additional_query_parameters.nil?
     req.params = { **(request_options&.additional_query_parameters || {}) }.compact
   end
-  req.body = { **(request_options&.additional_body_parameters || {}), name: name, description: description, agentCode: agent_code, externalId: external_id }.compact
+  req.body = { **(request_options&.additional_body_parameters || {}), name: name, description: description, agentCode: agent_code, externalId: external_id, active: active }.compact
   req.url "#{@request_client.get_url(request_options: request_options)}/agents"
 end
       Paid::Agent.from_json(json_object: response.body)
@@ -131,7 +136,7 @@ end
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.agents.update(agent_id: "agentId", request: {  })
+#  api.agents.update(agent_id: "agentId", request: { name: "Acme Agent (Updated)", agent_attributes: [{ name: "Emails sent signal", active: true, pricing: { event_name: "emails_sent", taxable: true, charge_type: USAGE, pricing_model: VOLUME_PRICING, billing_frequency: MONTHLY, price_points: { "USD": { tiers: [{ min_quantity: 0, max_quantity: 10, unit_price: 100 }, { min_quantity: 11, max_quantity: 100, unit_price: 90 }, { min_quantity: 101, unit_price: 80 }] } } } }] })
     def update(agent_id:, request:, request_options: nil)
       response = @request_client.conn.put do | req |
   unless request_options&.timeout_in_seconds.nil?
@@ -222,7 +227,7 @@ end
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.agents.update_by_external_id(external_id: "externalId", request: {  })
+#  api.agents.update_by_external_id(external_id: "externalId", request: { name: "Acme Agent (Updated)", agent_attributes: [{ name: "Emails sent signal", active: true, pricing: { event_name: "emails_sent", taxable: true, charge_type: USAGE, pricing_model: PER_UNIT, billing_frequency: MONTHLY, price_points: { "USD": { unit_price: 150 } } } }] })
     def update_by_external_id(external_id:, request:, request_options: nil)
       response = @request_client.conn.put do | req |
   unless request_options&.timeout_in_seconds.nil?
@@ -317,6 +322,7 @@ end
     # @param description [String] 
     # @param agent_code [String] 
     # @param external_id [String] 
+    # @param active [Boolean] 
     # @param request_options [Paid::RequestOptions] 
     # @return [Paid::Agent]
     # @example
@@ -325,8 +331,12 @@ end
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.agents.create(name: "name", description: "description")
-    def create(name:, description:, agent_code: nil, external_id: nil, request_options: nil)
+#  api.agents.create(
+#    name: "Acme Agent",
+#    description: "Acme Agent is an AI agent that does things.",
+#    external_id: "acme-agent"
+#  )
+    def create(name:, description:, agent_code: nil, external_id: nil, active: nil, request_options: nil)
       Async do
         response = @request_client.conn.post do | req |
   unless request_options&.timeout_in_seconds.nil?
@@ -339,7 +349,7 @@ end
   unless request_options.nil? || request_options&.additional_query_parameters.nil?
     req.params = { **(request_options&.additional_query_parameters || {}) }.compact
   end
-  req.body = { **(request_options&.additional_body_parameters || {}), name: name, description: description, agentCode: agent_code, externalId: external_id }.compact
+  req.body = { **(request_options&.additional_body_parameters || {}), name: name, description: description, agentCode: agent_code, externalId: external_id, active: active }.compact
   req.url "#{@request_client.get_url(request_options: request_options)}/agents"
 end
         Paid::Agent.from_json(json_object: response.body)
@@ -392,7 +402,7 @@ end
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.agents.update(agent_id: "agentId", request: {  })
+#  api.agents.update(agent_id: "agentId", request: { name: "Acme Agent (Updated)", agent_attributes: [{ name: "Emails sent signal", active: true, pricing: { event_name: "emails_sent", taxable: true, charge_type: USAGE, pricing_model: VOLUME_PRICING, billing_frequency: MONTHLY, price_points: { "USD": { tiers: [{ min_quantity: 0, max_quantity: 10, unit_price: 100 }, { min_quantity: 11, max_quantity: 100, unit_price: 90 }, { min_quantity: 101, unit_price: 80 }] } } } }] })
     def update(agent_id:, request:, request_options: nil)
       Async do
         response = @request_client.conn.put do | req |
@@ -489,7 +499,7 @@ end
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.agents.update_by_external_id(external_id: "externalId", request: {  })
+#  api.agents.update_by_external_id(external_id: "externalId", request: { name: "Acme Agent (Updated)", agent_attributes: [{ name: "Emails sent signal", active: true, pricing: { event_name: "emails_sent", taxable: true, charge_type: USAGE, pricing_model: PER_UNIT, billing_frequency: MONTHLY, price_points: { "USD": { unit_price: 150 } } } }] })
     def update_by_external_id(external_id:, request:, request_options: nil)
       Async do
         response = @request_client.conn.put do | req |

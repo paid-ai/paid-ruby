@@ -31,7 +31,7 @@ module Paid
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.orders.lines.update(order_id: "orderId")
+#  api.orders.lines.update(order_id: "orderId", lines: [{ agent_external_id: "acme-agent", name: "Order Line One", description: "Order Line One is an order line for Acme, Inc." }, { agent_external_id: "acme-agent-2", name: "Order Line Two", description: "Order Line Two is an order line for Acme, Inc." }])
       def update(order_id:, lines: nil, request_options: nil)
         response = @request_client.conn.put do | req |
   unless request_options&.timeout_in_seconds.nil?
@@ -74,7 +74,7 @@ end
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.orders.lines.update(order_id: "orderId")
+#  api.orders.lines.update(order_id: "orderId", lines: [{ agent_external_id: "acme-agent", name: "Order Line One", description: "Order Line One is an order line for Acme, Inc." }, { agent_external_id: "acme-agent-2", name: "Order Line Two", description: "Order Line Two is an order line for Acme, Inc." }])
       def update(order_id:, lines: nil, request_options: nil)
         Async do
           response = @request_client.conn.put do | req |

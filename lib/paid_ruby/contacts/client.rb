@@ -76,16 +76,13 @@ end
 #    token: "YOUR_AUTH_TOKEN"
 #  )
 #  api.contacts.create(
+#    customer_external_id: "acme-inc",
 #    salutation: MR,
-#    first_name: "firstName",
-#    last_name: "lastName",
-#    email: "email",
-#    billing_street: "billingStreet",
-#    billing_city: "billingCity",
-#    billing_country: "billingCountry",
-#    billing_postal_code: "billingPostalCode"
+#    first_name: "John",
+#    last_name: "Doe",
+#    email: "john.doe@example.com"
 #  )
-    def create(external_id: nil, customer_id: nil, customer_external_id: nil, salutation:, first_name:, last_name:, email:, phone: nil, billing_street:, billing_city:, billing_state_province: nil, billing_country:, billing_postal_code:, request_options: nil)
+    def create(external_id: nil, customer_id: nil, customer_external_id: nil, salutation:, first_name:, last_name:, email:, phone: nil, billing_street: nil, billing_city: nil, billing_state_province: nil, billing_country: nil, billing_postal_code: nil, request_options: nil)
       response = @request_client.conn.post do | req |
   unless request_options&.timeout_in_seconds.nil?
     req.options.timeout = request_options.timeout_in_seconds
@@ -283,16 +280,13 @@ end
 #    token: "YOUR_AUTH_TOKEN"
 #  )
 #  api.contacts.create(
+#    customer_external_id: "acme-inc",
 #    salutation: MR,
-#    first_name: "firstName",
-#    last_name: "lastName",
-#    email: "email",
-#    billing_street: "billingStreet",
-#    billing_city: "billingCity",
-#    billing_country: "billingCountry",
-#    billing_postal_code: "billingPostalCode"
+#    first_name: "John",
+#    last_name: "Doe",
+#    email: "john.doe@example.com"
 #  )
-    def create(external_id: nil, customer_id: nil, customer_external_id: nil, salutation:, first_name:, last_name:, email:, phone: nil, billing_street:, billing_city:, billing_state_province: nil, billing_country:, billing_postal_code:, request_options: nil)
+    def create(external_id: nil, customer_id: nil, customer_external_id: nil, salutation:, first_name:, last_name:, email:, phone: nil, billing_street: nil, billing_city: nil, billing_state_province: nil, billing_country: nil, billing_postal_code: nil, request_options: nil)
       Async do
         response = @request_client.conn.post do | req |
   unless request_options&.timeout_in_seconds.nil?

@@ -82,7 +82,7 @@ end
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.customers.create(name: "name")
+#  api.customers.create(name: "Acme, Inc.", external_id: "acme-inc")
     def create(name:, external_id: nil, phone: nil, employee_count: nil, annual_revenue: nil, tax_exempt_status: nil, creation_source: nil, website: nil, billing_address: nil, request_options: nil)
       response = @request_client.conn.post do | req |
   unless request_options&.timeout_in_seconds.nil?
@@ -154,7 +154,7 @@ end
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.customers.update(customer_id: "customerId", request: {  })
+#  api.customers.update(customer_id: "customerId", request: { name: "Acme, Inc. (Updated)", phone: "123-456-7890", employee_count: 101, annual_revenue: 1000001 })
     def update(customer_id:, request:, request_options: nil)
       response = @request_client.conn.put do | req |
   unless request_options&.timeout_in_seconds.nil?
@@ -368,7 +368,7 @@ end
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.customers.create(name: "name")
+#  api.customers.create(name: "Acme, Inc.", external_id: "acme-inc")
     def create(name:, external_id: nil, phone: nil, employee_count: nil, annual_revenue: nil, tax_exempt_status: nil, creation_source: nil, website: nil, billing_address: nil, request_options: nil)
       Async do
         response = @request_client.conn.post do | req |
@@ -444,7 +444,7 @@ end
 #    environment: Paid::Environment::PRODUCTION,
 #    token: "YOUR_AUTH_TOKEN"
 #  )
-#  api.customers.update(customer_id: "customerId", request: {  })
+#  api.customers.update(customer_id: "customerId", request: { name: "Acme, Inc. (Updated)", phone: "123-456-7890", employee_count: 101, annual_revenue: 1000001 })
     def update(customer_id:, request:, request_options: nil)
       Async do
         response = @request_client.conn.put do | req |

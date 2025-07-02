@@ -79,13 +79,14 @@ end
 #    token: "YOUR_AUTH_TOKEN"
 #  )
 #  api.orders.create(
-#    customer_id: "customerId",
-#    billing_contact_id: "billingContactId",
-#    name: "name",
-#    start_date: "startDate",
-#    currency: "currency"
+#    customer_external_id: "acme-inc",
+#    name: "Acme Order",
+#    description: "Acme Order is an order for Acme, Inc.",
+#    start_date: "2025-01-01",
+#    end_date: "2026-01-01",
+#    currency: "USD"
 #  )
-    def create(customer_id:, customer_external_id: nil, billing_contact_id:, name:, description: nil, start_date:, end_date: nil, currency:, order_lines: nil, request_options: nil)
+    def create(customer_id: nil, customer_external_id: nil, billing_contact_id: nil, name:, description: nil, start_date:, end_date: nil, currency:, order_lines: nil, request_options: nil)
       response = @request_client.conn.post do | req |
   unless request_options&.timeout_in_seconds.nil?
     req.options.timeout = request_options.timeout_in_seconds
@@ -258,13 +259,14 @@ end
 #    token: "YOUR_AUTH_TOKEN"
 #  )
 #  api.orders.create(
-#    customer_id: "customerId",
-#    billing_contact_id: "billingContactId",
-#    name: "name",
-#    start_date: "startDate",
-#    currency: "currency"
+#    customer_external_id: "acme-inc",
+#    name: "Acme Order",
+#    description: "Acme Order is an order for Acme, Inc.",
+#    start_date: "2025-01-01",
+#    end_date: "2026-01-01",
+#    currency: "USD"
 #  )
-    def create(customer_id:, customer_external_id: nil, billing_contact_id:, name:, description: nil, start_date:, end_date: nil, currency:, order_lines: nil, request_options: nil)
+    def create(customer_id: nil, customer_external_id: nil, billing_contact_id: nil, name:, description: nil, start_date:, end_date: nil, currency:, order_lines: nil, request_options: nil)
       Async do
         response = @request_client.conn.post do | req |
   unless request_options&.timeout_in_seconds.nil?
