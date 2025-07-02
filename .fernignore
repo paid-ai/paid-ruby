@@ -4,3 +4,5 @@ README.md
 lib/paid_ruby.rb
 lib/extensions/batch.rb
 lib/paid_ruby/tracing/
+
+.ruby-version
