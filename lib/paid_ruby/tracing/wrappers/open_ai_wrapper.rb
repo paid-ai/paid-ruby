@@ -66,10 +66,10 @@ module Paid
               begin
                 response = @openai_client.images.generate(parameters: parameters)
                 span.add_attributes({
-                                      "gen_ai.image.count" => parameters[:n] || 1,
-                                      "gen_ai.image.size" => parameters[:size] || "1024x1024",
-                                      "gen_ai.image.quality" => parameters[:quality] || "standard"
-                                    })
+                  "gen_ai.image.count" => parameters[:n] || 1,
+                  "gen_ai.image.size" => parameters[:size] || "1024x1024",
+                  "gen_ai.image.quality" => parameters[:quality] || "standard"
+                })
                 span.status = OpenTelemetry::Trace::Status.ok("Success")
                 response
               rescue StandardError => e
@@ -116,12 +116,12 @@ module Paid
         end
 
         def add_response_attributes(span, response)
-          return unless response.is_a?(Hash) && response.dig("usage")
+          return unless response.is_a?(Hash) && response["usage"]
 
           attributes = {
             "gen_ai.usage.input_tokens" => response.dig("usage", "prompt_tokens"),
             "gen_ai.usage.output_tokens" => response.dig("usage", "completion_tokens"),
-            "gen_ai.response.model" => response.dig("model")
+            "gen_ai.response.model" => response["model"]
           }.compact
 
           span.add_attributes(attributes)
