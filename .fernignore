@@ -2,11 +2,11 @@
 README.md
 
 lib/paid_ruby.rb
-lib/extensions/batch.rb
 lib/paid_ruby/tracing/
+test/test_paid_ruby.rb
 
-lib/gemconfig.rb
 .github/workflows/publish.yml
+.github/workflows/ci.yml
 
 .ruby-version
 .fern/replay.lock

@@ -46,12 +46,12 @@ module Paid
     end
 
     # Getter for the OpenAI wrapper to retrieve the external_customer_id from the context.
-    def self.get_external_customer_id_from_context
+    def self.get_external_customer_id_from_context # rubocop:disable Naming/AccessorMethodName
       OpenTelemetry::Context.current.value(PAID_EXTERNAL_CUSTOMER_ID_KEY)
     end
 
     # Getter for the OpenAI wrapper to retrieve the token from the context.
-    def self.get_token_from_context
+    def self.get_token_from_context # rubocop:disable Naming/AccessorMethodName
       OpenTelemetry::Context.current.value(PAID_TOKEN_KEY)
     end
 
