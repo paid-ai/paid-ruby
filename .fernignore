@@ -9,3 +9,6 @@ lib/gemconfig.rb
 .github/workflows/publish.yml
 
 .ruby-version
+.fern/replay.lock
+.fern/replay.yml
+.gitattributes
