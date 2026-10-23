@@ -22,7 +22,7 @@ The Paid Ruby library provides convenient access to the Paid API from Ruby appli
 
 ## Documentation
 
-See the full API docs [here](https://paid.docs.buildwithfern.com/api-reference/api-reference/customers/list)
+See the full API docs at [docs.paid.ai](https://docs.paid.ai). Every client method is listed in [reference.md](./reference.md).
 
 ## Installation
 
@@ -44,49 +44,59 @@ Or install it yourself as:
 $ gem install paid_ruby
 ```
 
+Requires Ruby 3.3 or later.
+
 ## Usage
 
-The client needs to be configured with your account's API key, which is available in the [Paid dashboard](https://app.paid.ai/agent-integration/api-keys). 
+The client needs to be configured with your account's API key, which is available in the [Paid dashboard](https://app.paid.ai/agent-integration/api-keys).
 
 ```ruby
 require 'paid_ruby'
 
 client = Paid::Client.new(token: "API_KEY")
 
-client.customers.create(
-  name: "name"
-)
+client.customers.create_customer(name: "Acme", external_id: "acme-corp")
 ```
 
-## Request And Response Types
+`require 'paid'` also works if you only need the API client without the tracing helpers.
 
-The SDK provides Ruby classes for all request and response types. These are automatically handled when making API calls.
+## Sending signals
 
 ```ruby
-# Example of creating a customer
-response = client.customers.create(
-  name: "John Doe",
-)
-
-# Access response data
-puts response.name
-puts response.email
+client.signals.create_signals(signals: [{
+  event_name: "email_sent",
+  customer: { external_customer_id: "acme-corp" },
+  data: { recipients: 3 },
+  idempotency_key: "email_sent_msg_8f3a2c"
+}])
 ```
 
-## Exception Handling
+## Errors
 
-When the API returns a non-success status code (4xx or 5xx response), the SDK will raise an appropriate error.
+When the API returns a non-success status code, the SDK raises an error you can rescue.
 
 ```ruby
 begin
-  client.customers.create(...)
-rescue Paid::Error => e
-  puts e.status_code
+  client.customers.get_customer_by_external_id(external_id: "acme-corp")
+rescue Paid::Errors::ResponseError => e
+  puts e.code
   puts e.message
-  puts e.body
-  puts e.raw_response
+rescue Paid::Errors::ApiError => e
+  puts e.message
 end
 ```
+
+## Upgrading from 0.1.x
+
+0.5.0 is generated from the Paid v2 API (`https://api.agentpaid.io/api/v2`) and is not backwards compatible with 0.1.x:
+
+- Methods are named after the API operation, for example `customers.create` is now `customers.create_customer` and `customers.get_by_external_id` is now `customers.get_customer_by_external_id`.
+- `client.agents` is gone: use `client.products`.
+- `client.usage.record_usage` and `client.usage.flush` are gone: use `client.signals.create_signals`, or `client.costs.create_costs` for costs.
+- `Paid::AsyncClient` is gone.
+- The client options are `token:`, `base_url:`, `max_retries:` and `timeout:`. `environment:` and `timeout_in_seconds:` are removed.
+- Errors are raised as `Paid::Errors::*` classes.
+- Ruby 3.3 or later is required.
 
 ## Logging
 
@@ -141,36 +151,6 @@ end
 paid_client.capture(external_customer_id: "<your_external_customer_id>") do
   create_image(paid_openai_client)
 end
-```
-
-## Manual cost tracking
-
-Manual cost tracking allow to insert your own costs to the usage data and
-cost traces will be created based on that info.
-
-```ruby
-require 'paid_ruby'
-
-client = Paid::Client.new(token: "<your_paid_api_key>")
-
-client.usage.record_usage(
-  signal: {
-    event_name: "<your_signal_name>",
-    agent_id: "<your_agent_id>",
-    customer_id: "<your_customer_id>",
-    data: {
-        "costData": {
-            "vendor": "<vendor_name>", # can be anything
-            "cost": {
-                "amount": 0.003,
-                "currency": "USD"
-            }
-        }
-    }
-  }
-)
-
-client.usage.flush
 ```
 
 ## Contributing
