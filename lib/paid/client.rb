@@ -12,7 +12,7 @@ module Paid
       @raw_client = Paid::Internal::Http::RawClient.new(
         base_url: base_url || Paid::Environment::DEFAULT,
         headers: {
-          "User-Agent" => "paid_ruby/0.5.0",
+          "User-Agent" => "paid_ruby/1.0.0",
           "X-Fern-Language" => "Ruby",
           Authorization: "Bearer #{token}"
         },

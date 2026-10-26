@@ -88,7 +88,7 @@ end
 
 ## Upgrading from 0.1.x
 
-0.5.0 is generated from the Paid v2 API (`https://api.agentpaid.io/api/v2`) and is not backwards compatible with 0.1.x:
+1.0.0 is generated from the Paid v2 API (`https://api.agentpaid.io/api/v2`) and is not backwards compatible with 0.1.x:
 
 - Methods are named after the API operation, for example `customers.create` is now `customers.create_customer` and `customers.get_by_external_id` is now `customers.get_customer_by_external_id`.
 - `client.agents` is gone: use `client.products`.
