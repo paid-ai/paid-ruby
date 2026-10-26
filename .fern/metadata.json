@@ -1,0 +1,16 @@
+{
+  "cliVersion": "4.33.0",
+  "generatorName": "fernapi/fern-ruby-sdk",
+  "generatorVersion": "1.39.8",
+  "generatorConfig": {
+    "clientClassName": "Paid",
+    "extraDependencies": {
+      "opentelemetry-api": "~> 1.5",
+      "opentelemetry-exporter-otlp": "~> 0.30.0",
+      "opentelemetry-sdk": "~> 1.8",
+      "ruby-openai": "~> 8.1"
+    }
+  },
+  "originGitCommit": "a9184730b453505e5f46bdb8eb7e9bfb4d34c1d0",
+  "sdkVersion": "0.5.0"
+}
