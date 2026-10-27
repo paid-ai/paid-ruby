@@ -58,7 +58,7 @@ module Paid
       # @option params [Paid::Webhooks::Types::UpdateWebhookRequestWebhookName] :webhook_name
       #
       # @example
-      #   client.webhooks.update_webhook(webhook_name: "billing-invoice-created")
+      #   client.webhooks.update_webhook(webhook_name: "billing-invoice-paid")
       #
       # @return [Paid::Types::WebhookUpdateResponse]
       def update_webhook(request_options: {}, **params)
@@ -100,7 +100,7 @@ module Paid
       # @option params [Paid::Webhooks::Types::TestWebhookRequestWebhookName] :webhook_name
       #
       # @example
-      #   client.webhooks.test_webhook(webhook_name: "billing-invoice-created")
+      #   client.webhooks.test_webhook(webhook_name: "billing-invoice-paid")
       #
       # @return [Paid::Types::WebhookTestResponse]
       def test_webhook(request_options: {}, **params)

@@ -1,5 +1,5 @@
 # Reference
-## Products
+## products
 <details><summary><code>client.products.<a href="/lib/paid/products/client.rb">list_products</a>() -> Paid::Types::ProductListResponse</code></summary>
 <dl>
 <dd>
@@ -460,7 +460,7 @@ client.products.update_product_by_external_id(external_id: "externalId")
 </dl>
 </details>
 
-## Plans
+## plans
 <details><summary><code>client.plans.<a href="/lib/paid/plans/client.rb">list_plans</a>() -> Paid::Types::PlanListResponse</code></summary>
 <dl>
 <dd>
@@ -1001,7 +1001,7 @@ client.plans.update_plan_by_external_id(external_id: "externalId")
 </dl>
 </details>
 
-## Customers
+## customers
 <details><summary><code>client.customers.<a href="/lib/paid/customers/client.rb">list_customers</a>() -> Paid::Types::CustomerListResponse</code></summary>
 <dl>
 <dd>
@@ -5891,7 +5891,7 @@ client.customers.get_customer_unit_spend(
 </dl>
 </details>
 
-## Contacts
+## contacts
 <details><summary><code>client.contacts.<a href="/lib/paid/contacts/client.rb">list_contacts</a>() -> Paid::Types::ContactListResponse</code></summary>
 <dl>
 <dd>
@@ -6471,7 +6471,7 @@ client.contacts.delete_contact_by_external_id(external_id: "externalId")
 </dl>
 </details>
 
-## Orders
+## orders
 <details><summary><code>client.orders.<a href="/lib/paid/orders/client.rb">list_orders</a>() -> Paid::Types::OrderListResponse</code></summary>
 <dl>
 <dd>
@@ -7680,7 +7680,7 @@ client.orders.upsert_order_by_external_id(
 </dl>
 </details>
 
-## Invoices
+## invoices
 <details><summary><code>client.invoices.<a href="/lib/paid/invoices/client.rb">list_invoices</a>() -> Paid::Types::InvoiceListResponse</code></summary>
 <dl>
 <dd>
@@ -8057,7 +8057,7 @@ client.invoices.get_invoice_lines(id: "id")
 </dl>
 </details>
 
-## Signals
+## signals
 <details><summary><code>client.signals.<a href="/lib/paid/signals/client.rb">list_signals</a>() -> Paid::Types::SignalListResponse</code></summary>
 <dl>
 <dd>
@@ -8735,7 +8735,7 @@ Each period total stays complete, but a group inside "other" loses its own figur
 </dl>
 </details>
 
-## Credits
+## credits
 <details><summary><code>client.credits.<a href="/lib/paid/credits/client.rb">list_credit_currencies</a>() -> Paid::Types::CreditCurrencyListResponse</code></summary>
 <dl>
 <dd>
@@ -9250,7 +9250,7 @@ client.credits.update_credit_currency_by_id(
 </dl>
 </details>
 
-## Checkouts
+## checkouts
 <details><summary><code>client.checkouts.<a href="/lib/paid/checkouts/client.rb">list_checkouts</a>() -> Paid::Types::CheckoutListResponse</code></summary>
 <dl>
 <dd>
@@ -9624,7 +9624,7 @@ client.checkouts.archive_checkout(id: "id")
 </dl>
 </details>
 
-## CustomerPortals
+## customer-portals
 <details><summary><code>client.customer_portals.<a href="/lib/paid/customer_portals/client.rb">create_customer_portal</a>(request) -> Paid::Types::CustomerPortal</code></summary>
 <dl>
 <dd>
@@ -9711,7 +9711,7 @@ client.customer_portals.create_customer_portal
 </dl>
 </details>
 
-## ValueReceipts
+## value-receipts
 <details><summary><code>client.value_receipts.<a href="/lib/paid/value_receipts/client.rb">list_value_receipts</a>() -> Paid::Types::ValueReceiptListResponse</code></summary>
 <dl>
 <dd>
@@ -10394,7 +10394,7 @@ client.value_receipts.unpublish_value_receipt(id: "id")
 </dl>
 </details>
 
-## DeliveredValue
+## delivered-value
 <details><summary><code>client.delivered_value.<a href="/lib/paid/delivered_value/client.rb">get_delivered_value</a>() -> Paid::Types::DeliveredValueResponse</code></summary>
 <dl>
 <dd>
@@ -10609,7 +10609,7 @@ client.delivered_value.get_delivered_value_summary(
 </dl>
 </details>
 
-## Webhooks
+## webhooks
 <details><summary><code>client.webhooks.<a href="/lib/paid/webhooks/client.rb">list_webhooks</a>() -> Paid::Types::WebhookListResponse</code></summary>
 <dl>
 <dd>
@@ -10691,7 +10691,7 @@ Enable or disable a webhook and configure the destination URL for the authentica
 <dd>
 
 ```ruby
-client.webhooks.update_webhook(webhook_name: "billing-invoice-created")
+client.webhooks.update_webhook(webhook_name: "billing-invoice-paid")
 ```
 </dd>
 </dl>
@@ -10769,7 +10769,7 @@ Send a synthetic webhook delivery to the configured destination for this webhook
 <dd>
 
 ```ruby
-client.webhooks.test_webhook(webhook_name: "billing-invoice-created")
+client.webhooks.test_webhook(webhook_name: "billing-invoice-paid")
 ```
 </dd>
 </dl>
@@ -10858,7 +10858,7 @@ client.webhooks.rotate_webhook_secret
 </dl>
 </details>
 
-## Pricing
+## pricing
 <details><summary><code>client.pricing.<a href="/lib/paid/pricing/client.rb">list_pricing</a>() -> Paid::Types::PricingListResponse</code></summary>
 <dl>
 <dd>
@@ -11061,7 +11061,7 @@ client.pricing.update_pricing(product_attribute_id: "productAttributeId")
 </dl>
 </details>
 
-## Costs
+## costs
 <details><summary><code>client.costs.<a href="/lib/paid/costs/client.rb">create_costs</a>(request) -> Paid::Types::CostIngestResponse</code></summary>
 <dl>
 <dd>
@@ -11124,7 +11124,7 @@ client.costs.create_costs(costs: [])
 </dl>
 </details>
 
-## Analytics
+## analytics
 <details><summary><code>client.analytics.<a href="/lib/paid/analytics/client.rb">execute_analytics_query</a>(request) -> Paid::Types::AnalyticsQueryResponse</code></summary>
 <dl>
 <dd>
@@ -11323,7 +11323,7 @@ client.analytics.get_signals_metadata
 </dl>
 </details>
 
-## CustomViewsExperimental
+## custom-views-experimental
 <details><summary><code>client.custom_views_experimental.<a href="/lib/paid/custom_views_experimental/client.rb">list_custom_views</a>() -> Paid::Types::CustomViewListResponse</code></summary>
 <dl>
 <dd>
@@ -12174,7 +12174,7 @@ client.custom_views_experimental.get_custom_view_embed_token(
 </dl>
 </details>
 
-## ValueModels
+## value-models
 <details><summary><code>client.value_models.<a href="/lib/paid/value_models/client.rb">get_current_value_model</a>() -> Paid::Types::ValueModelDetail</code></summary>
 <dl>
 <dd>
@@ -12533,7 +12533,7 @@ client.value_models.refresh_value_model_backfill
 </dl>
 </details>
 
-## ValueMetrics
+## value-metrics
 <details><summary><code>client.value_metrics.<a href="/lib/paid/value_metrics/client.rb">list_value_metrics</a>() -> Paid::Types::ValueMetricListResponse</code></summary>
 <dl>
 <dd>
@@ -13043,7 +13043,7 @@ client.value_metrics.update_value_metric(slug: "slug")
 </dl>
 </details>
 
-## PaymentMethods
+## payment-methods
 <details><summary><code>client.payment_methods.<a href="/lib/paid/payment_methods/client.rb">list_payment_methods</a>() -> Paid::Types::PaymentMethodListResponse</code></summary>
 <dl>
 <dd>
@@ -13410,7 +13410,7 @@ client.payment_methods.update_default_payment_method(id: "id")
 </dl>
 </details>
 
-## Payments
+## payments
 <details><summary><code>client.payments.<a href="/lib/paid/payments/client.rb">list_payments</a>() -> Paid::Types::PaymentListResponse</code></summary>
 <dl>
 <dd>
@@ -13689,7 +13689,7 @@ client.payments.get_payment(id: "id")
 </dl>
 </details>
 
-## PaymentAllocations
+## payment-allocations
 <details><summary><code>client.payment_allocations.<a href="/lib/paid/payment_allocations/client.rb">list_payment_allocations</a>() -> Paid::Types::PaymentAllocationListResponse</code></summary>
 <dl>
 <dd>
@@ -13855,7 +13855,7 @@ client.payment_allocations.create_payment_allocation(
 </dl>
 </details>
 
-## Amendments
+## amendments
 <details><summary><code>client.amendments.<a href="/lib/paid/amendments/client.rb">get_order_amendment_options</a>(order_id:) -> Paid::Types::AmendmentOptions</code></summary>
 <dl>
 <dd>
@@ -14106,7 +14106,7 @@ client.amendments.execute_order_amendment(
 </dl>
 </details>
 
-## AnalyticsExperimental
+## analytics-experimental
 <details><summary><code>client.analytics_experimental.<a href="/lib/paid/analytics_experimental/client.rb">execute_experimental_analytics_query</a>(request) -> Paid::Types::AnalyticsQueryResponse</code></summary>
 <dl>
 <dd>

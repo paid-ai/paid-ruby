@@ -8,7 +8,6 @@ module Paid
       module TestWebhookRequestWebhookName
         extend Paid::Internal::Types::Enum
 
-        BILLING_INVOICE_CREATED = "billing-invoice-created"
         BILLING_INVOICE_PAID = "billing-invoice-paid"
         BILLING_INVOICE_POSTED = "billing-invoice-posted"
         BILLING_CHECKOUT_CREATED = "billing-checkout-created"
