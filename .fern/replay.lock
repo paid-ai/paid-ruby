@@ -12,5 +12,268 @@ generations:
     cli_version: unknown
     generator_versions:
       fernapi/fern-ruby-sdk: 1.39.8
-current_generation: f34f252f71e1b0f18071dabcabef72c152aa4f0d
-patches: []
+  - commit_sha: d3dc5bf34af45fa0cdbba20831be73f44023c133
+    tree_hash: 22990ae1da23a4f815f8c714566d7a539e199603
+    timestamp: 2026-10-27T13:56:55.420Z
+    cli_version: unknown
+    generator_versions:
+      fernapi/fern-ruby-sdk: 1.39.8
+current_generation: d3dc5bf34af45fa0cdbba20831be73f44023c133
+patches:
+  - id: patch-composite-41b771b9
+    content_hash: sha256:98eaeb505348cdeaaec0b406eacc04fc6dd72246b0c0951a56264491805f3ef6
+    original_commit: 41b771b98f3a8729400f7aee3c5cafafcde585b9
+    original_message: Customer customizations (composite)
+    original_author: composite
+    base_generation: f34f252f71e1b0f18071dabcabef72c152aa4f0d
+    files:
+      - lib/extensions/batch.rb
+      - lib/gemconfig.rb
+      - lib/paid/client.rb
+      - lib/paid/version.rb
+    patch_content: |
+      diff --git a/lib/extensions/batch.rb b/lib/extensions/batch.rb
+      deleted file mode 100644
+      index d71f449..0000000
+      --- a/lib/extensions/batch.rb
+      +++ /dev/null
+      @@ -1,41 +0,0 @@
+      -
+      -# frozen_string_literal: true
+      -
+      -module Paid
+      -  class BatchUsageClient < Paid::UsageClient
+      -    def flush(request_options: nil)
+      -      record_bulk(signals: @signals, request_options: request_options)
+      -      @signals = []
+      -    end
+      -
+      -    def record_usage(signal: nil, request_options: nil)
+      -      @signals ||= []
+      -      @signals << signal
+      -      if @signals.length >= 100
+      -        record_bulk(signals: @signals, request_options: request_options)
+      -        @signals = []
+      -      end
+      -    end
+      -  end
+      -
+      -
+      -  class AsyncBatchUsageClient < Paid::AsyncUsageClient
+      -    def flush(request_options: nil)
+      -      Async do
+      -        record_bulk(signals: @signals, request_options: request_options)
+      -        @signals = []
+      -      end
+      -    end
+      -
+      -    def record_usage(signal: nil, request_options: nil)
+      -      Async do
+      -        @signals ||= []
+      -        @signals << signal
+      -        if @signals.length >= 100
+      -            record_bulk(signals: @signals, request_options: request_options)
+      -            @signals = []
+      -        end
+      -      end
+      -    end
+      -  end
+      -end
+      diff --git a/lib/gemconfig.rb b/lib/gemconfig.rb
+      deleted file mode 100644
+      index 203942b..0000000
+      --- a/lib/gemconfig.rb
+      +++ /dev/null
+      @@ -1,14 +0,0 @@
+      -# frozen_string_literal: true
+      -module Paid
+      -  module Gemconfig
+      -    VERSION = ""
+      -    AUTHORS = [""].freeze
+      -    EMAIL = ""
+      -    SUMMARY = ""
+      -    DESCRIPTION = ""
+      -    HOMEPAGE = "https://github.com/paid-ai/paid-ruby"
+      -    SOURCE_CODE_URI = "https://github.com/paid-ai/paid-ruby"
+      -    CHANGELOG_URI = "https://github.com/paid-ai/paid-ruby/blob/master/CHANGELOG.md"
+      -    RUBY_VERSION = ">= 3.4.4"
+      -  end
+      -end
+      \ No newline at end of file
+      diff --git a/lib/paid/client.rb b/lib/paid/client.rb
+      index 5b355b3..02a7cff 100644
+      --- a/lib/paid/client.rb
+      +++ b/lib/paid/client.rb
+      @@ -12,7 +12,7 @@ module Paid
+             @raw_client = Paid::Internal::Http::RawClient.new(
+               base_url: base_url || Paid::Environment::DEFAULT,
+               headers: {
+      -          "User-Agent" => "paid_ruby/0.5.0",
+      +          "User-Agent" => "paid_ruby/1.0.0",
+                 "X-Fern-Language" => "Ruby",
+                 Authorization: "Bearer #{token}"
+               },
+      diff --git a/lib/paid/version.rb b/lib/paid/version.rb
+      index 3f65a95..f7b9b8b 100644
+      --- a/lib/paid/version.rb
+      +++ b/lib/paid/version.rb
+      @@ -1,5 +1,5 @@
+       # frozen_string_literal: true
+       
+       module Paid
+      -  VERSION = "0.5.0"
+      +  VERSION = "1.0.0"
+       end
+    theirs_snapshot:
+      lib/paid/client.rb: |
+        # frozen_string_literal: true
+
+        module Paid
+          class Client
+            # @param token [String]
+            # @param base_url [String, nil]
+            # @param max_retries [Integer]
+            # @param timeout [Numeric]
+            #
+            # @return [void]
+            def initialize(token:, base_url: nil, max_retries: 2, timeout: 60)
+              @raw_client = Paid::Internal::Http::RawClient.new(
+                base_url: base_url || Paid::Environment::DEFAULT,
+                headers: {
+                  "User-Agent" => "paid_ruby/1.0.0",
+                  "X-Fern-Language" => "Ruby",
+                  Authorization: "Bearer #{token}"
+                },
+                max_retries: max_retries,
+                timeout: timeout
+              )
+            end
+
+            # @return [Paid::Products::Client]
+            def products
+              @products ||= Paid::Products::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::Plans::Client]
+            def plans
+              @plans ||= Paid::Plans::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::Customers::Client]
+            def customers
+              @customers ||= Paid::Customers::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::Contacts::Client]
+            def contacts
+              @contacts ||= Paid::Contacts::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::Orders::Client]
+            def orders
+              @orders ||= Paid::Orders::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::Invoices::Client]
+            def invoices
+              @invoices ||= Paid::Invoices::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::Signals::Client]
+            def signals
+              @signals ||= Paid::Signals::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::Credits::Client]
+            def credits
+              @credits ||= Paid::Credits::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::Checkouts::Client]
+            def checkouts
+              @checkouts ||= Paid::Checkouts::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::CustomerPortals::Client]
+            def customer_portals
+              @customer_portals ||= Paid::CustomerPortals::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::ValueReceipts::Client]
+            def value_receipts
+              @value_receipts ||= Paid::ValueReceipts::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::DeliveredValue::Client]
+            def delivered_value
+              @delivered_value ||= Paid::DeliveredValue::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::Webhooks::Client]
+            def webhooks
+              @webhooks ||= Paid::Webhooks::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::Pricing::Client]
+            def pricing
+              @pricing ||= Paid::Pricing::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::Costs::Client]
+            def costs
+              @costs ||= Paid::Costs::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::Analytics::Client]
+            def analytics
+              @analytics ||= Paid::Analytics::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::CustomViewsExperimental::Client]
+            def custom_views_experimental
+              @custom_views_experimental ||= Paid::CustomViewsExperimental::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::ValueModels::Client]
+            def value_models
+              @value_models ||= Paid::ValueModels::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::ValueMetrics::Client]
+            def value_metrics
+              @value_metrics ||= Paid::ValueMetrics::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::PaymentMethods::Client]
+            def payment_methods
+              @payment_methods ||= Paid::PaymentMethods::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::Payments::Client]
+            def payments
+              @payments ||= Paid::Payments::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::PaymentAllocations::Client]
+            def payment_allocations
+              @payment_allocations ||= Paid::PaymentAllocations::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::Amendments::Client]
+            def amendments
+              @amendments ||= Paid::Amendments::Client.new(client: @raw_client)
+            end
+
+            # @return [Paid::AnalyticsExperimental::Client]
+            def analytics_experimental
+              @analytics_experimental ||= Paid::AnalyticsExperimental::Client.new(client: @raw_client)
+            end
+          end
+        end
+      lib/paid/version.rb: |
+        # frozen_string_literal: true
+
+        module Paid
+          VERSION = "1.0.0"
+        end
+    status: unresolved
